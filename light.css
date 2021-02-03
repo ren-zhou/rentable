@@ -1,0 +1,51 @@
+: root{
+	--cell_size: 40px;
+}
+
+
+body {
+	background-color: ivory;
+	width: 100%;
+	height: 100%
+}
+
+h1 {
+	color: black;
+}
+
+canvas {
+	background: white;
+	display: block;
+	margin: 0 auto;
+}
+
+* {
+	padding: 0; margin: 0;
+}
+
+/* 
+#grid {
+	margin: auto;
+	border: 3px solid #73AD21;
+	text-align: center;
+} */
+
+
+
+/* .cell-selected {
+	background-color: gainsboro;
+	width: var(--cell_size);
+	height: var(--cell_size);
+	border: 1px solid black;
+	display: inline-block;
+
+}
+
+.cell{
+	background-color: white;
+	width: var(--cell_size);
+	height: var(--cell_size);
+	border: 1px solid black;
+	display: inline-block;
+
+} */
