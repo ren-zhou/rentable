@@ -1,2 +1,2 @@
-# intersection
+# rentable
 a website for crosswords
