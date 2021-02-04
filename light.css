@@ -1,5 +1,7 @@
 :root{
 	--cell-size: 40px;
+	--x-dim: 2;
+	--y-dim: 2;
 }
 
 
@@ -16,13 +18,14 @@ h1 {
 #main-grid {
 	display: grid;
 	background-color:lightcoral;
-	grid-template-columns: repeat(3,var(--cell-size));
-	grid-template-rows: repeat(3, var(--cell-size));
+	grid-template-columns: repeat(var(--x-dim),var(--cell-size));
+	grid-template-rows: repeat(var(--y-dim), var(--cell-size));
 	padding: 10px;
 	width: 50%;
 	height: auto;
+	position: relative;
 
-}
+} 
 
 .cell {
 	background-color: white;
@@ -30,18 +33,39 @@ h1 {
 	text-align: center;
 	font-size: 20px;
 	padding: 0px;
+	position: relative
+}
+
+
+.cell-hovered{
+	background-color: lightblue;
+}
+
+.cell-selected {
+	background-color: lemonchiffon;
 }
 
 .cell-black {
 	background-color: black;
 	border: 1px solid black;
-	text-align: center;
-	font-size: 10px;
 	padding: 0px;
+	position: relative;
+}
+
+.guess {
+	font-size: 30px;
 }
 
 .cell-label {
-	font-size: 15px;
-	float:left;
-	margin: 3px;
+	font-size: 12px;
+	/* float:left;
+	margin: 3px; */
+	position: absolute;
+	top: 3px;
+	left: 3px;
 }
+
+[contenteditable] {
+	outline: 0px solid transparent;
+}
+
