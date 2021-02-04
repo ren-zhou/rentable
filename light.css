@@ -1,5 +1,5 @@
-: root{
-	--cell_size: 40px;
+:root{
+	--cell-size: 40px;
 }
 
 
@@ -13,39 +13,35 @@ h1 {
 	color: black;
 }
 
-canvas {
-	background: white;
-	display: block;
-	margin: 0 auto;
-}
-
-* {
-	padding: 0; margin: 0;
-}
-
-/* 
-#grid {
-	margin: auto;
-	border: 3px solid #73AD21;
-	text-align: center;
-} */
-
-
-
-/* .cell-selected {
-	background-color: gainsboro;
-	width: var(--cell_size);
-	height: var(--cell_size);
-	border: 1px solid black;
-	display: inline-block;
+#main-grid {
+	display: grid;
+	background-color:lightcoral;
+	grid-template-columns: repeat(3,var(--cell-size));
+	grid-template-rows: repeat(3, var(--cell-size));
+	padding: 10px;
+	width: 50%;
+	height: auto;
 
 }
 
-.cell{
+.cell {
 	background-color: white;
-	width: var(--cell_size);
-	height: var(--cell_size);
 	border: 1px solid black;
-	display: inline-block;
+	text-align: center;
+	font-size: 20px;
+	padding: 0px;
+}
 
-} */
+.cell-black {
+	background-color: black;
+	border: 1px solid black;
+	text-align: center;
+	font-size: 10px;
+	padding: 0px;
+}
+
+.cell-label {
+	font-size: 15px;
+	float:left;
+	margin: 3px;
+}

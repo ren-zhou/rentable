@@ -1,9 +1,11 @@
 
 class Cell {
-    constructor(n) {
+    constructor(n, x, y) {
         this.letter = n;
         this.correct = False;
         this.guess = '';
+        this.x = x;
+        this.y = y;
     }
 
     guess(n) {
