@@ -36,10 +36,11 @@ function keyInput(event) {
         case 13: enterPress(); return;
         case 9:
         case 11: tabPress(); return;
-        case 37:
-        case 38:
-        case 39:
-        case 40: arrowKey(); return;
+        case 27: escPress(); return;
+        case 37: arrowKeyLateral(-1); //left
+        case 38: arrowKeyVertical(-1)//up
+        case 39: arrowKeyLateral(1);//right
+        case 40: arrowKeyVertical(1); return; //down
         //please don't make fun of my switch/case code :(
     }
 
@@ -48,6 +49,7 @@ function keyInput(event) {
     }
 }
 
+// will put letter into the currently selected cell
 function inputKey(letter) {
 
     for (let i = 0; i < currCell.children.length; i++) {
@@ -62,9 +64,33 @@ function inputKey(letter) {
     currCell.appendChild(text);
 }
 
+//triggered when esc is pressed: unselects a cell if there is a selected cell
+function escPress() {
+    if (currCell == null) {
+        return;
+    }
+    currCell.classList.remove("cell-selected");
+    currCell = null;
+}
 
+//triggered on backspace: will delete letter of selected cell (if there is a guess on it)
 function backspace() {
-    console.log("backspace");
+    if (currCell != null) {
+        let guess =  getGuess(currCell);
+        if (guess != null) {
+            guess.innerHTML = "";
+        }
+    }
+}
+
+// returns the guess element of a cell or null if there is no guess on this cell
+function getGuess(cell) {
+    for (let i = 0; i < cell.children.length; i++) {
+        if (cell.children[i].classList.contains("guess")) {
+            return cell.children[i];
+        }
+    }
+    return null;
 }
 
 function enterPress() {
@@ -75,13 +101,22 @@ function tabPress() {
     console.log("tab");
 }
 
-function arrowKey() {
-    console.log("arrow");
+//dir is -1 for left, 1 for right
+function arrowKeyLateral(dir) {
+    if (currCell == null) {
+        return;
+    }
+    
 }
 
+//dir is -1 for up, 1 for down
+function arrowKeyVertical() {
 
+}
+
+// returns true if code is a letter of the alphabet
 function validInput(code) {
-    if (code < 65 || (code >= 91 && code < 61) || code > 122) {
+    if (code < 65 || (code >= 91 && code < 96) || code > 122) {
         return false;
     }
     return true;
