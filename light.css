@@ -1,7 +1,7 @@
 :root{
 	--cell-size: 40px;
-	--x-dim: 2;
-	--y-dim: 2;
+	--x-dim: 0;
+	--y-dim: 0;
 }
 
 ::selection {
@@ -11,9 +11,9 @@
 
 
 body {
-	background-color: ivory;
-	width: 100%;
-	height: 100%
+	background-color: honeydew;
+	width: 75%;
+	height: 75%;
 	cursor: default;
 }
 
@@ -71,7 +71,23 @@ h1 {
 	left: 3px;
 }
 
-[contenteditable] {
-	outline: 0px solid transparent;
+.clue-label {
+	font-weight: bold;
+	margin: 3px;
 }
+
+.clue {
+	
+}
+
+ol.clue-list {
+	list-style-type: none;
+	background-color: aliceblue;
+	width: 50%;
+}
+
+/* [contenteditable] {
+	outline: 0px solid transparent;
+} */
+
 

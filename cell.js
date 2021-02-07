@@ -14,7 +14,12 @@ function unhoverCell(cell) {
 
 function selectCell(cell) {
     if (!cell.classList.contains("cell")) {
-        console.log("why was not cell selected");
+        console.log("why was not-cell selected");
+        return;
+    }
+    if (cell.classList.contains("cell-selected")) {
+        console.log("hmm");
+        deselectCurrent();
         return;
     }
     cell.classList.add("cell-selected");
@@ -22,6 +27,14 @@ function selectCell(cell) {
         currCell.classList.remove("cell-selected");
     }
     currCell = cell;
+}
+
+function deselectCurrent() {
+    if (currCell == null) {
+        return;
+    }
+    currCell.classList.remove("cell-selected");
+    currCell = null;
 }
 
 function keyInput(event) {
@@ -37,24 +50,24 @@ function keyInput(event) {
         case 9:
         case 11: tabPress(); return;
         case 27: escPress(); return;
-        case 37: arrowKeyLateral(-1); //left
-        case 38: arrowKeyVertical(-1)//up
-        case 39: arrowKeyLateral(1);//right
-        case 40: arrowKeyVertical(1); return; //down
-        //please don't make fun of my switch/case code :(
+        case 37: return arrowKeyLateral(-1); //left
+        case 38: return arrowKeyVertical(-1)//up
+        case 39: return arrowKeyLateral(1);//right
+        case 40: return arrowKeyVertical(1); return; //down
     }
 
     if (validInput(code)) {
-        inputKey(String.fromCharCode(code));
+        inputLetter(String.fromCharCode(code));
     }
 }
 
-// will put letter into the currently selected cell
-function inputKey(letter) {
+
+function inputLetter(letter) {
 
     for (let i = 0; i < currCell.children.length; i++) {
         if (currCell.children[i].classList.contains("guess")) {
             currCell.children[i].innerHTML = letter;
+            arrowKeyLateral(1);
             return;
         }
     }
@@ -62,15 +75,12 @@ function inputKey(letter) {
     text.innerHTML = letter;
     text.classList.add("guess");
     currCell.appendChild(text);
+    arrowKeyLateral(1);
 }
 
 //triggered when esc is pressed: unselects a cell if there is a selected cell
 function escPress() {
-    if (currCell == null) {
-        return;
-    }
-    currCell.classList.remove("cell-selected");
-    currCell = null;
+    deselectCurrent();
 }
 
 //triggered on backspace: will delete letter of selected cell (if there is a guess on it)
@@ -80,6 +90,7 @@ function backspace() {
         if (guess != null) {
             guess.innerHTML = "";
         }
+        arrowKeyLateral(-1);
     }
 }
 
@@ -103,15 +114,31 @@ function tabPress() {
 
 //dir is -1 for left, 1 for right
 function arrowKeyLateral(dir) {
-    if (currCell == null) {
-        return;
-    }
-    
+    moveSelection(dir, 1);
+}
+
+function validIndex(index) {
+    return index >= 0 && index < gridWidth * gridHeight;
 }
 
 //dir is -1 for up, 1 for down
-function arrowKeyVertical() {
+function arrowKeyVertical(dir) {
+    moveSelection(dir, gridWidth);
+}
 
+function moveSelection(dir, stride) {
+    if (currCell == null) {
+        return;
+    }
+    let index = parseInt(currCell.getAttribute("data-id"));
+    index += dir * stride;
+    while ( validIndex(index) && !cells[index].classList.contains("cell") ) {
+        index += dir * stride;
+    }
+    // console.log("index at " + index);
+    if (validIndex(index)) {
+        selectCell(cells[index]);
+    }
 }
 
 // returns true if code is a letter of the alphabet

@@ -6,6 +6,8 @@ var cell_px = 40;
 var format = "";
 
 var starters = [];
+var cells  = [];
+
 
 const grid = document.getElementById("main-grid");
 
@@ -19,6 +21,8 @@ function generateCells() {
     updateCSS();
     document.addEventListener("keydown", keyInput);
 
+    let word = ["a", "d", "b"]
+    let clueNum = 1;
     for (var i = 0; i < gridWidth * gridHeight; i++) {
         var cell = document.createElement("div");
         cell.className = "cell";
@@ -27,8 +31,10 @@ function generateCells() {
         if (format.charAt(i) == ".") {
             cell.className = "cell-black";
         } else {
-            if (format.charAt(i) == "w") {
+            if (word.includes(format.charAt(i))) {
                 starters.push(i);
+                updateNumbering(format.charAt(i), clueNum);
+                clueNum++;
             }
             cell.onmouseover = function() {hoverCell(this)};
             cell.onmouseout= function() {unhoverCell(this)};
@@ -37,7 +43,11 @@ function generateCells() {
         }
 
         cell.id = "cell" + i;
+        // cell.setAttribute("data-row", Math.floor(i/gridWidth));
+        // cell.setAttribute("data-col", i % gridWidth);
+        cell.setAttribute("data-id", i);
         grid.appendChild(cell);
+        cells.push(cell);
     }
     labelClues();
 }
@@ -58,14 +68,11 @@ function loadFromString(str) {
     gridWidth = template.x;
     gridHeight = template.y;
     format = template.format;
+    acrossClues = template.acrossClues;
+    downClues = template.downClues;
 }
 
 
 
-loadFromString(`{
-	"x": 3,
-	"y": 3,
-	"format": "w....wwbb..w.b.w.w.b.w.b.bb"
-}`);
 
-generateCells();
+
