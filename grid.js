@@ -8,6 +8,9 @@ var format = "";
 var starters = [];
 var cells  = [];
 
+var inputAcross = true;
+var checkList;
+
 
 const grid = document.getElementById("main-grid");
 
@@ -19,12 +22,13 @@ function updateCSS() {
 
 function generateCells() {
     updateCSS();
+    makeShittyValidate();
     document.addEventListener("keydown", keyInput);
 
     let word = ["a", "d", "b"]
     let clueNum = 1;
-    for (var i = 0; i < gridWidth * gridHeight; i++) {
-        var cell = document.createElement("div");
+    for (let i = 0; i < gridWidth * gridHeight; i++) {
+        let cell = document.createElement("div");
         cell.className = "cell";
 
 
@@ -33,12 +37,13 @@ function generateCells() {
         } else {
             if (word.includes(format.charAt(i))) {
                 starters.push(i);
-                updateNumbering(format.charAt(i), clueNum);
+                updateNumbering(format.charAt(i), clueNum, i);
                 clueNum++;
             }
             cell.onmouseover = function() {hoverCell(this)};
             cell.onmouseout= function() {unhoverCell(this)};
             cell.onclick = function() {selectCell(this)};
+            addGuess(cell);
 
         }
 
@@ -52,10 +57,24 @@ function generateCells() {
     labelClues();
 }
 
+function makeShittyValidate() {
+    let button = document.createElement("button");
+    button.onclick = function() {validateWord(this)};
+    button.innerHTML = "shitty validate";
+    document.body.appendChild(button);
+}
+
+function addGuess(cell) {
+    let text = document.createElement("text");
+    text.innerHTML = "";
+    text.classList.add("guess");
+    cell.appendChild(text);
+}
+
 function labelClues() {
-    for (var i = 0; i < starters.length; i++) {
-        var cell = document.getElementById("cell" + starters[i]);
-        var num = document.createElement("text");
+    for (let i = 0; i < starters.length; i++) {
+        let cell = document.getElementById("cell" + starters[i]);
+        let num = document.createElement("text");
         num.innerHTML= i+1;
         num.className = "cell-label";
         cell.prepend(num);
@@ -64,15 +83,14 @@ function labelClues() {
 }
 
 function loadFromString(str) {
-    var template = JSON.parse(str);
+    let template = JSON.parse(str);
     gridWidth = template.x;
     gridHeight = template.y;
     format = template.format;
     acrossClues = template.acrossClues;
     downClues = template.downClues;
+    checkList = template.checkList;
+    
 }
-
-
-
 
 

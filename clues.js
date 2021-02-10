@@ -1,7 +1,13 @@
 var acrossClues;
 var acrossNumbering = [];
+var acrossIndices = [];
+
 var downNumbering = [];
+var downIndices = [];
+
 var downClues;
+
+var currClue;
 
 const acrossElem = document.getElementById("across-clues");
 const downElem = document.getElementById("down-clues");
@@ -12,19 +18,24 @@ function classifyClueLists() {
     downElem.className = "clue-list";
 }
 
-function updateNumbering(ch, i) {
+function updateNumbering(ch, clueNum, index) {
     switch(ch) {
         case "b":
-            acrossNumbering.push(i);
-            downNumbering.push(i);
+            updateClueList(acrossClues, clueNum, index);
+            updateClueList(downClues, clueNum, index);
             break;
         case "a":
-            acrossNumbering.push(i);
+            updateClueList(acrossClues, clueNum, index);
             break;
         case "d":
-            downNumbering.push(i);
+            updateClueList(downClues, clueNum, index);
             break;
     }
+}
+
+function updateClueList(lst, clueNum, index) {
+    lst.push(clueNum);
+    lst.push(index);
 }
 
 
@@ -63,3 +74,4 @@ function addClue(i, elem, across) {
     clue.appendChild(clueDef);
     elem.appendChild(clue);
 }
+

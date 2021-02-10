@@ -18,14 +18,17 @@ function selectCell(cell) {
         return;
     }
     if (cell.classList.contains("cell-selected")) {
-        console.log("hmm");
         deselectCurrent();
+        inputAcross = !inputAcross;
+        selectCell(cell);
         return;
     }
     cell.classList.add("cell-selected");
+    highlightWord(cell);
     if (currCell != null) {
         currCell.classList.remove("cell-selected");
     }
+
     currCell = cell;
 }
 
@@ -34,6 +37,7 @@ function deselectCurrent() {
         return;
     }
     currCell.classList.remove("cell-selected");
+    unhighlightAll();
     currCell = null;
 }
 
@@ -44,16 +48,19 @@ function keyInput(event) {
     if (currCell == null) {
         return;
     }
+    if ([37, 38, 39, 40].includes(code)) {
+        event.preventDefault();
+    }
     switch(code) {
-        case 8: backspace(); return;
-        case 13: enterPress(); return;
+        case 8: return backspace();
+        case 13: return enterPress();
         case 9:
-        case 11: tabPress(); return;
-        case 27: escPress(); return;
+        case 11: return tabPress();
+        case 27: return escPress();
         case 37: return arrowKeyLateral(-1); //left
         case 38: return arrowKeyVertical(-1)//up
         case 39: return arrowKeyLateral(1);//right
-        case 40: return arrowKeyVertical(1); return; //down
+        case 40: return arrowKeyVertical(1);//down
     }
 
     if (validInput(code)) {
@@ -67,15 +74,26 @@ function inputLetter(letter) {
     for (let i = 0; i < currCell.children.length; i++) {
         if (currCell.children[i].classList.contains("guess")) {
             currCell.children[i].innerHTML = letter;
-            arrowKeyLateral(1);
+            advanceCell();
             return;
         }
     }
-    let text = document.createElement("text");
-    text.innerHTML = letter;
-    text.classList.add("guess");
-    currCell.appendChild(text);
-    arrowKeyLateral(1);
+    console.log('should never get here');
+    // let text = document.createElement("text");
+    // text.innerHTML = letter;
+    // text.classList.add("guess");
+    // currCell.appendChild(text);
+    // advanceCell();
+}
+
+
+
+function advanceCell() {
+    inputAcross ? arrowKeyLateral(1) : arrowKeyVertical(1);
+}
+
+function retreatCell() {
+    inputAcross ? arrowKeyLateral(-1) : arrowKeyVertical(-1);
 }
 
 //triggered when esc is pressed: unselects a cell if there is a selected cell
@@ -90,7 +108,7 @@ function backspace() {
         if (guess != null) {
             guess.innerHTML = "";
         }
-        arrowKeyLateral(-1);
+        retreatCell();
     }
 }
 
@@ -112,9 +130,12 @@ function tabPress() {
     console.log("tab");
 }
 
+
 //dir is -1 for left, 1 for right
 function arrowKeyLateral(dir) {
+    inputAcross = true;
     moveSelection(dir, 1);
+
 }
 
 function validIndex(index) {
@@ -123,19 +144,20 @@ function validIndex(index) {
 
 //dir is -1 for up, 1 for down
 function arrowKeyVertical(dir) {
+    inputAcross = false;
     moveSelection(dir, gridWidth);
+
 }
 
 function moveSelection(dir, stride) {
     if (currCell == null) {
         return;
     }
-    let index = parseInt(currCell.getAttribute("data-id"));
+    let index = getIndex(currCell);
     index += dir * stride;
     while ( validIndex(index) && !cells[index].classList.contains("cell") ) {
         index += dir * stride;
     }
-    // console.log("index at " + index);
     if (validIndex(index)) {
         selectCell(cells[index]);
     }
@@ -147,4 +169,24 @@ function validInput(code) {
         return false;
     }
     return true;
+}
+
+function getCell(x, y) {
+    if (x >= gridWidth || y >= gridHeight || x < 0 || y < 0) {
+        return null;
+    }
+
+    let cell = cells[y*gridWidth + x];
+    if (cell.classList.contains("cell-black")) {
+        return null;
+    }
+    return cell;
+}
+
+function getIndex(cell) {
+    return parseInt(cell.getAttribute("data-id"));
+}
+
+function getXY(index) {
+    return [index % gridWidth, Math.floor(index/gridWidth)];
 }
