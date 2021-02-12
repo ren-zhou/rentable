@@ -11,6 +11,8 @@ var cells  = [];
 var inputAcross = true;
 var checkList;
 
+var answers = [];
+
 
 const grid = document.getElementById("main-grid");
 
@@ -18,11 +20,13 @@ function updateCSS() {
     document.documentElement.style.setProperty('--cell-size', cell_px + "px");
     document.documentElement.style.setProperty('--x-dim', gridWidth);
     document.documentElement.style.setProperty('--y-dim', gridHeight);
-}
+} 
 
 function generateCells() {
+    makeAnswers();
     updateCSS();
     makeShittyValidate();
+    makeShittyClear();
     document.addEventListener("keydown", keyInput);
 
     let word = ["a", "d", "b"]
@@ -55,12 +59,20 @@ function generateCells() {
         cells.push(cell);
     }
     labelClues();
+    loadProgress();
 }
 
 function makeShittyValidate() {
     let button = document.createElement("button");
-    button.onclick = function() {validateWord(this)};
+    button.onclick = function() {validateWordStrict()};
     button.innerHTML = "shitty validate";
+    document.body.appendChild(button);
+}
+
+function makeShittyClear() {
+    let button = document.createElement("button");
+    button.onclick = function() {clearGrid()};
+    button.innerHTML = "clear";
     document.body.appendChild(button);
 }
 
@@ -93,4 +105,39 @@ function loadFromString(str) {
     
 }
 
+function loadProgress() {
+    let progress = localStorage.getItem("answers");
+    // console.log(progress);
+    progress = JSON.parse(progress);
+    if (progress == null || progress.length < gridWidth*gridHeight) {
+        return;
+    }
+    for (let i = 0; i < gridWidth*gridHeight; i++) {
+        if (cells[i].classList.contains("cell")) {
+            getGuess(cells[i]).innerText = progress[i];
+            answers[i] = progress[i];
+        }
 
+    }
+}
+
+function makeAnswers() {
+    for (let i = 0; i < gridWidth*gridHeight; i++) {
+        answers.push(" ")
+    }
+}
+
+function saveProgress() {
+    // console.log(JSON.stringify(answers));
+    localStorage.setItem("answers", JSON.stringify(answers));
+}
+
+function clearGrid() {
+    for (let i = 0; i < gridWidth*gridHeight; i++) {
+        if (cells[i].classList.contains("cell")) {
+            getGuess(cells[i]).innerText = "";
+        }
+        answers[i] = "";
+    }
+    saveProgress();
+}

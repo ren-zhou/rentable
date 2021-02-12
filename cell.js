@@ -44,7 +44,7 @@ function deselectCurrent() {
 function keyInput(event) {
 
     let code = event.keyCode;
-    console.log(code);
+    // console.log(code);
     if (currCell == null) {
         return;
     }
@@ -62,6 +62,9 @@ function keyInput(event) {
         case 39: return arrowKeyLateral(1);//right
         case 40: return arrowKeyVertical(1);//down
     }
+    if (event.ctrlKey) {
+        return;
+    }
 
     if (validInput(code)) {
         inputLetter(String.fromCharCode(code));
@@ -73,7 +76,13 @@ function inputLetter(letter) {
 
     for (let i = 0; i < currCell.children.length; i++) {
         if (currCell.children[i].classList.contains("guess")) {
+            if (currCell.classList.contains("cell-correct")) {
+                console.log('why');
+                devalidateCell(currCell);
+            }
             currCell.children[i].innerHTML = letter;
+            answers[getIndex(currCell)] = letter;
+            saveProgress();
             advanceCell();
             return;
         }
@@ -103,13 +112,26 @@ function escPress() {
 
 //triggered on backspace: will delete letter of selected cell (if there is a guess on it)
 function backspace() {
-    if (currCell != null) {
-        let guess =  getGuess(currCell);
-        if (guess != null) {
-            guess.innerHTML = "";
-        }
+    if (currCell == null) {
+        return;
+    }
+    if (getGuess(currCell).innerText == "") {
+        retreatCell();
+        clearGuess(currCell);
+    } else {
+        clearGuess(currCell);
         retreatCell();
     }
+}
+
+function clearGuess(cell) {
+    if (cell == null) {
+        return;
+    }
+    let guess =  getGuess(currCell);
+    if (guess != null) {
+        guess.innerHTML = "";
+    } 
 }
 
 // returns the guess element of a cell or null if there is no guess on this cell
