@@ -1,9 +1,9 @@
 var acrossClues;
-var acrossNumbering = [];
-var acrossIndices = [];
+var acrossNumbering;
+var acrossIndices;
 
-var downNumbering = [];
-var downIndices = [];
+var downNumbering;
+var downIndices;
 
 var downClues;
 
@@ -40,6 +40,7 @@ function updateNumbering(ch, clueNum, index) {
 
 
 function generateClues() {
+    concatLengths();
     classifyClueLists();
     for (let i = 0; i < acrossNumbering.length; i++) {
         addClue(i, acrossElem, true);
@@ -48,6 +49,7 @@ function generateClues() {
     for (let i = 0; i < downNumbering.length; i++) {
         addClue(i, downElem, false);
     }
+
 }
 
 function addClue(i, elem, across) {
@@ -76,3 +78,12 @@ function addClue(i, elem, across) {
     elem.appendChild(clue);
 }
 
+function concatLengths() {
+    return;
+    let re = /\(\d+(,( ){0,1}\d+)*\)$/;
+    for (let i in acrossClues) {
+        if(!re.test(acrossClues[i])) {
+            acrossClues[i] = acrossClues[i].concat(" ()");
+        }
+    }
+}

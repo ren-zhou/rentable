@@ -9,3 +9,6 @@ if (localStorage.getItem("source") != null) {
 }
 generate();
 setUpInput();
+makeShittyValidate();
+makeShittyClear();
+makeShittyClearLocal();

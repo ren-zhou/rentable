@@ -1,7 +1,6 @@
 function loadEXF(exf) {
-
     data = JSON.parse(atob(exf.slice(1)));
-    if (!data[0]) {
+    if (!data[0].valid) {
         alert("invalid exf! may be some issues.");
     }
     [gridWidth, gridHeight] = data[1]
@@ -17,12 +16,17 @@ function loadEXF(exf) {
     }
     format = makefmt(format);
     localStorage.setItem("source", exf);
+    updateTitleAuthor(data[0].title,data[0].author);
     
 }
 
 function loadNewEXF(exf) {
     loadEXF(exf);
-    updateGrid();
+    localStorage.removeItem("answers");
+    clearClues();
+    removeChildren(grid);
+    generate();
+
 }
 
 

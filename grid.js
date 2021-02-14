@@ -1,17 +1,17 @@
-var gridWidth = 0;
-var gridHeight = 0;
+var gridWidth = 3;
+var gridHeight = 3;
 
 var cell_px = 50;
 
 var format = "";
 
-var starters = [];
-var cells  = [];
+var starters;
+var cells;
 
-var inputAcross = true;
+var inputAcross;
 var checkList;
 
-var answers = [];
+var answers;
 
 
 const grid = document.getElementById("main-grid");
@@ -23,11 +23,11 @@ function updateCSS() {
 } 
 
 function generateCells() {
+    initialize();
     makeAnswers();
     updateCSS();
-    makeShittyValidate();
-    makeShittyClear();
-    makeShittyClearLocal();
+
+
     document.addEventListener("keydown", keyInput);
 
     let word = ["a", "d", "b"]
@@ -61,52 +61,25 @@ function generateCells() {
     loadProgress();
 }
 
+function initialize() {
+    acrossNumbering = [];
+    acrossIndices = [];
+    downNumbering = [];
+    downIndices = [];
+    starters = [];
+    cells = [];
+    answers = [];
+}
+
 function generate() {
     generateCells();
     generateClues();
 }
 
-function updateGrid() {
-    localStorage.removeItem("answers");
-    updateCSS();
-    let word = ["a", "d", "b"]
-    let clueNum = 1;
-    starters = [];
-    
-    clearClues();
-    removeChildren(grid);
-    for (let i = 0; i < gridWidth * gridHeight; i++) {
-        let cell = document.createElement("div");
-        cell.className = "cell";
-
-
-        if (format.charAt(i) == "." || format.charAt(i) == " ") {
-            cell.className = "cell-black";
-        } else {
-            if (word.includes(format.charAt(i))) {
-                starters.push(i);
-                updateNumbering(format.charAt(i), clueNum, i);
-                clueNum++;
-            }
-
-            cell.onclick = function() {selectCell(this)};
-            addGuess(cell);
-
-        }
-
-        cell.id = "cell" + i;
-
-        cell.setAttribute("data-id", i);
-        grid.appendChild(cell);
-        cells.push(cell);
-    }
-    labelClues();
-    generateClues();
-}
 
 function removeChildren(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
+    while (parent.firstElementChild) {
+        parent.removeChild(parent.firstElementChild);
     }
 }
 
@@ -190,7 +163,7 @@ function loadProgress() {
 
 function makeAnswers() {
     for (let i = 0; i < gridWidth*gridHeight; i++) {
-        answers.push(" ")
+        answers.push(" ");
     }
 }
 

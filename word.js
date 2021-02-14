@@ -4,7 +4,6 @@ let validationFlag = false;
 
 
 function applyToWord(func, cell) {
-
     if (cell == null) {
         console.log("why was there a null cell passed to applyToWord");
     }
