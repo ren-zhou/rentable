@@ -1,7 +1,7 @@
 var gridWidth = 0;
 var gridHeight = 0;
 
-var cell_px = 40;
+var cell_px = 50;
 
 var format = "";
 
@@ -27,6 +27,7 @@ function generateCells() {
     updateCSS();
     makeShittyValidate();
     makeShittyClear();
+    makeShittyClearLocal();
     document.addEventListener("keydown", keyInput);
 
     let word = ["a", "d", "b"]
@@ -36,7 +37,7 @@ function generateCells() {
         cell.className = "cell";
 
 
-        if (format.charAt(i) == ".") {
+        if (format.charAt(i) == "." || format.charAt(i) == " ") {
             cell.className = "cell-black";
         } else {
             if (word.includes(format.charAt(i))) {
@@ -44,22 +45,74 @@ function generateCells() {
                 updateNumbering(format.charAt(i), clueNum, i);
                 clueNum++;
             }
-            cell.onmouseover = function() {hoverCell(this)};
-            cell.onmouseout= function() {unhoverCell(this)};
+
             cell.onclick = function() {selectCell(this)};
             addGuess(cell);
 
         }
 
         cell.id = "cell" + i;
-        // cell.setAttribute("data-row", Math.floor(i/gridWidth));
-        // cell.setAttribute("data-col", i % gridWidth);
+
         cell.setAttribute("data-id", i);
         grid.appendChild(cell);
         cells.push(cell);
     }
     labelClues();
     loadProgress();
+}
+
+function generate() {
+    generateCells();
+    generateClues();
+}
+
+function updateGrid() {
+    localStorage.removeItem("answers");
+    updateCSS();
+    let word = ["a", "d", "b"]
+    let clueNum = 1;
+    starters = [];
+    
+    clearClues();
+    removeChildren(grid);
+    for (let i = 0; i < gridWidth * gridHeight; i++) {
+        let cell = document.createElement("div");
+        cell.className = "cell";
+
+
+        if (format.charAt(i) == "." || format.charAt(i) == " ") {
+            cell.className = "cell-black";
+        } else {
+            if (word.includes(format.charAt(i))) {
+                starters.push(i);
+                updateNumbering(format.charAt(i), clueNum, i);
+                clueNum++;
+            }
+
+            cell.onclick = function() {selectCell(this)};
+            addGuess(cell);
+
+        }
+
+        cell.id = "cell" + i;
+
+        cell.setAttribute("data-id", i);
+        grid.appendChild(cell);
+        cells.push(cell);
+    }
+    labelClues();
+    generateClues();
+}
+
+function removeChildren(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
+function makeTopBar() {
+    let top = document.getElementById("top-bar");
+    let dark_button = document.createElement("div");
 }
 
 function makeShittyValidate() {
@@ -75,6 +128,22 @@ function makeShittyClear() {
     button.innerHTML = "clear";
     document.body.appendChild(button);
 }
+
+
+function makeShittyClearLocal() {
+    let button = document.createElement("button");
+    button.onclick = function() {localStorage.clear()};
+    button.innerHTML = "clear localstorage";
+    document.body.appendChild(button);
+}
+
+function makeUpload() {
+    let button = document.createElement("button");
+    button.onclick = function() {localStorage.clear()};
+    button.innerHTML = "Upload File";
+    document.body.appendChild(button);    
+}
+
 
 function addGuess(cell) {
     let text = document.createElement("text");
@@ -107,7 +176,6 @@ function loadFromString(str) {
 
 function loadProgress() {
     let progress = localStorage.getItem("answers");
-    // console.log(progress);
     progress = JSON.parse(progress);
     if (progress == null || progress.length < gridWidth*gridHeight) {
         return;
@@ -117,7 +185,6 @@ function loadProgress() {
             getGuess(cells[i]).innerText = progress[i];
             answers[i] = progress[i];
         }
-
     }
 }
 
@@ -127,8 +194,12 @@ function makeAnswers() {
     }
 }
 
+function setAnswer(i, letter) {
+    answers[i] = letter;
+    saveProgress();
+}
+
 function saveProgress() {
-    // console.log(JSON.stringify(answers));
     localStorage.setItem("answers", JSON.stringify(answers));
 }
 

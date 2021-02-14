@@ -57,6 +57,7 @@ function validateCell(cell) {
     let guess = getGuess(cell).innerText.toLowerCase();
 
     if (checkList[getIndex(cell)] == 17 * guess.charCodeAt(0)) {
+        
         if (validationFlag ) {
             cell.classList.add("cell-correct");
         }
@@ -94,7 +95,7 @@ function validateWordStrict(){
     let tracker = [true];
     validationFlag = false;
     applyToWord((cell) => {tracker[0] = validateCell(cell) && tracker[0];}, currCell);
-    // console.log(wordlist);
+    
     if (tracker[0]) {
         validateWord();
     }

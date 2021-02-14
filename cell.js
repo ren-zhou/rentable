@@ -131,6 +131,8 @@ function clearGuess(cell) {
     let guess =  getGuess(currCell);
     if (guess != null) {
         guess.innerHTML = "";
+        answers[getIndex(cell)] = "";
+        saveProgress();
     } 
 }
 

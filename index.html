@@ -6,16 +6,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta charset="UTF-8">
         <link rel="stylesheet" href="light.css">
+        <link rel="icon" type="image/svg" href="./graphics/orange.svg">
 
 
     </head>
 
     <body>
-
-        <div id="main-grid">
+        <div style="visibility: hidden; opacity: 0;" class="dropzone"></div>
+        <div id="top-bar">RenTable</div>
+        <div id="grid-box">
+            <div id="main-grid"></div>
+            <ol id="across-clues">Across</ol>
+            <ol id="down-clues">Down</ol>
         </div>
-        <ol id="across-clues"></ol>
-        <ol id="down-clues"></ol>
+        <!-- <input type="file" id="upload"> -->
 
 
     <script src="cell.js"></script>
@@ -23,6 +27,7 @@
     <script src="grid.js"></script>
     <script src="reader.js"></script>
     <script src="word.js"></script>
+    <script src="input.js"></script>
     <script src="main.js"></script>
 
     </body>

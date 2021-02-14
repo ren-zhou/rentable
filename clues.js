@@ -12,6 +12,14 @@ var currClue;
 const acrossElem = document.getElementById("across-clues");
 const downElem = document.getElementById("down-clues");
 
+function clearClues() {
+    removeChildren(acrossElem);
+    removeChildren(downElem);
+    acrossNumbering = [];
+    acrossIndices = [];
+    downNumbering = [];
+    downIndices = [];
+}
 
 function classifyClueLists() {
     acrossElem.className = "clue-list";
@@ -19,24 +27,16 @@ function classifyClueLists() {
 }
 
 function updateNumbering(ch, clueNum, index) {
-    switch(ch) {
-        case "b":
-            updateClueList(acrossClues, clueNum, index);
-            updateClueList(downClues, clueNum, index);
-            break;
-        case "a":
-            updateClueList(acrossClues, clueNum, index);
-            break;
-        case "d":
-            updateClueList(downClues, clueNum, index);
-            break;
+    if (ch == 'b' || ch == 'a') {
+        acrossNumbering.push(clueNum);
+        acrossIndices.push(index);
+    }
+    if (ch == 'b' || ch == 'd') {
+        downNumbering.push(clueNum);
+        downIndices.push(index);
     }
 }
 
-function updateClueList(lst, clueNum, index) {
-    lst.push(clueNum);
-    lst.push(index);
-}
 
 
 function generateClues() {
@@ -51,6 +51,7 @@ function generateClues() {
 }
 
 function addClue(i, elem, across) {
+
     let clues = downClues;
     let numbering = downNumbering;
     if (across) {
