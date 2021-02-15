@@ -42,38 +42,32 @@ function deselectCurrent() {
 }
 
 function keyInput(event) {
-
-    let code = event.keyCode;
-    // console.log(code);
     if (currCell == null) {
         return;
-    }
-    if ([37, 38, 39, 40].includes(code)) {
-        event.preventDefault();
-    }
-    switch(code) {
-        case 8: return backspace();
-        case 13: return enterPress();
-        case 9:
-        case 11: return tabPress();
-        case 27: return escPress();
-        case 37: return arrowKeyLateral(-1); //left
-        case 38: return arrowKeyVertical(-1)//up
-        case 39: return arrowKeyLateral(1);//right
-        case 40: return arrowKeyVertical(1);//down
     }
     if (event.ctrlKey) {
         return;
     }
-
-    if (validInput(code)) {
-        inputLetter(String.fromCharCode(code));
+    if (event.code.startsWith("Arrow")) {
+        event.preventDefault();
+    }
+    switch (event.code) {
+        case "Backspace": return backspace();
+        case "Enter": return enterPress();
+        case "Tab": return tabPress();
+        case "Escape": return escPress();
+        case "ArrowLeft": return arrowKeyLateral(-1); // Left
+        case "ArrowUp": return arrowKeyVertical(-1); // Up
+        case "ArrowRight": return arrowKeyLateral(1); // Right
+        case "ArrowDown": return arrowKeyVertical(1); // Down
+    }
+    if (validInput(event.key)) {
+        inputLetter(event.key.toUpperCase());
     }
 }
 
 
 function inputLetter(letter) {
-
     for (let i = 0; i < currCell.children.length; i++) {
         if (currCell.children[i].classList.contains("guess")) {
             if (currCell.classList.contains("cell-correct")) {
@@ -133,7 +127,7 @@ function clearGuess(cell) {
         guess.innerHTML = "";
         answers[getIndex(cell)] = "";
         saveProgress();
-    } 
+    }
 }
 
 // returns the guess element of a cell or null if there is no guess on this cell
@@ -157,20 +151,24 @@ function tabPress() {
 
 //dir is -1 for left, 1 for right
 function arrowKeyLateral(dir) {
-    inputAcross = true;
-    moveSelection(dir, 1);
-
-}
-
-function validIndex(index) {
-    return index >= 0 && index < gridWidth * gridHeight;
+    if (inputAcross) {
+        moveSelection(dir, 1);
+    } else {
+        moveSelection(dir, 0);
+    }
 }
 
 //dir is -1 for up, 1 for down
 function arrowKeyVertical(dir) {
-    inputAcross = false;
-    moveSelection(dir, gridWidth);
+    if (!inputAcross) {
+        moveSelection(dir, gridWidth);
+    } else {
+        moveSelection(dir, 0);
+    }
+}
 
+function validIndex(index) {
+    return index >= 0 && index < gridWidth * gridHeight;
 }
 
 function moveSelection(dir, stride) {
@@ -179,7 +177,7 @@ function moveSelection(dir, stride) {
     }
     let index = getIndex(currCell);
     index += dir * stride;
-    while ( validIndex(index) && !cells[index].classList.contains("cell") ) {
+    while (validIndex(index) && !cells[index].classList.contains("cell")) {
         index += dir * stride;
     }
     if (validIndex(index)) {
@@ -187,12 +185,10 @@ function moveSelection(dir, stride) {
     }
 }
 
-// returns true if code is a letter of the alphabet
-function validInput(code) {
-    if (code < 65 || (code >= 91 && code < 96) || code > 122) {
-        return false;
-    }
-    return true;
+// returns true if key is a letter of the alphabet
+function validInput(key) {
+    const pattern = /^[A-Za-z]$/;
+    return pattern.test(key);
 }
 
 function getCell(x, y) {
