@@ -1,5 +1,6 @@
 function loadEXF(exf) {
     data = JSON.parse(atob(exf.slice(1)));
+
     if (!data[0].valid) {
         alert("invalid exf! may be some issues.");
     }

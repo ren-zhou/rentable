@@ -77,7 +77,6 @@ function inputLetter(letter) {
     for (let i = 0; i < currCell.children.length; i++) {
         if (currCell.children[i].classList.contains("guess")) {
             if (currCell.classList.contains("cell-correct")) {
-                console.log('why');
                 devalidateCell(currCell);
             }
             currCell.children[i].innerHTML = letter;
