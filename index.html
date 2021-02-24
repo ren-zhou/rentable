@@ -5,7 +5,7 @@
         <title>RenTable</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="light.css">
+        <link rel="stylesheet" href="style.css">
         <link rel="icon" type="image/svg" href="./graphics/orange.svg">
 
 
@@ -13,14 +13,22 @@
 
     <body>
         <div style="visibility: hidden; opacity: 0;" class="dropzone"></div>
-        <div id="top-bar">RenTable</div>
-        <div id="grid-box">
-            <div id="main-grid"></div>
-            <ol id="across-clues">Across</ol>
-            <ol id="down-clues">Down</ol>
+        
+        <div id="full-box">
+            <div id="nav-bar"></div>
+            <div id="grid-box">
+                <div id="across-box" class="clue-box"><b>Across</b>
+                    <ol id="across-clues"></ol>
+                </div>
+                <div id="main-grid"></div>
+                <div id="down-box" class="clue-box"><b>Down</b>
+                    <ol id="down-clues"></ol>
+                </div>
+                
+                
+            </div>
         </div>
-        <!-- <input type="file" id="upload"> -->
-
+        
 
     <script src="cell.js"></script>
     <script src="clues.js"></script>

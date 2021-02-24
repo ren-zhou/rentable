@@ -65,13 +65,13 @@ function addClue(i, elem, across) {
     let clueNum = document.createElement("span");
     let clueDef = document.createElement("span");
 
-    clue.className = "clue-line"
+    clue.className = "clue-item"
 
     clueDef.innerHTML = clues[i];
-    clueDef.className = "clue"
+    clueDef.className = "clue-content"
 
     clueNum.innerHTML = numbering[i];
-    clueNum.className = "clue-label"
+    clueNum.className = "clue-num"
 
     clue.appendChild(clueNum);
     clue.appendChild(clueDef);

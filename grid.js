@@ -83,32 +83,7 @@ function removeChildren(parent) {
     }
 }
 
-function makeTopBar() {
-    let top = document.getElementById("top-bar");
-    let dark_button = document.createElement("div");
-}
 
-function makeShittyValidate() {
-    let button = document.createElement("button");
-    button.onclick = function() {validateWordStrict()};
-    button.innerHTML = "shitty validate";
-    document.body.appendChild(button);
-}
-
-function makeShittyClear() {
-    let button = document.createElement("button");
-    button.onclick = function() {clearGrid()};
-    button.innerHTML = "clear";
-    document.body.appendChild(button);
-}
-
-
-function makeShittyClearLocal() {
-    let button = document.createElement("button");
-    button.onclick = function() {localStorage.clear()};
-    button.innerHTML = "clear localstorage";
-    document.body.appendChild(button);
-}
 
 function makeUpload() {
     let button = document.createElement("button");
