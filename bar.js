@@ -6,7 +6,7 @@ let validateButton;
 let resetLocalButton;
 let titleText;
 
-bar.onclick = toggleDarkMode;
+
 let light_on = true;
 
 const light_theme = {	
@@ -45,7 +45,7 @@ function updateTitleAuthor(title, author) {
         titleText.className = "title";
         bar.appendChild(titleText);
     }
-
+    titleText.onclick = toggleDarkMode;
     titleText.innerText = title + " by " + author;
 }
 
