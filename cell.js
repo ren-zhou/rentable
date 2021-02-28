@@ -53,6 +53,7 @@ function keyInput(event) {
     }
     switch (event.code) {
         case "Backspace": return backspace();
+        case "Delete": return clearGuess(currCell);
         case "Enter": return enterPress();
         case "Tab": return tabPress();
         case "Escape": return escPress();
