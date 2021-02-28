@@ -52,7 +52,8 @@ function keyInput(event) {
         event.preventDefault();
     }
     switch (event.code) {
-        case "Backspace": return backspace();
+        case "Backspace": return backspace(true);
+        case "Delete": return backspace(false);
         case "Enter": return enterPress();
         case "Tab": return tabPress();
         case "Escape": return escPress();
@@ -104,16 +105,16 @@ function escPress() {
 }
 
 //triggered on backspace: will delete letter of selected cell (if there is a guess on it)
-function backspace() {
+function backspace(goback = true) {
     if (currCell == null) {
         return;
     }
     if (getGuess(currCell).innerText == "") {
-        retreatCell();
+        if (goback) retreatCell();
         clearGuess(currCell);
     } else {
         clearGuess(currCell);
-        retreatCell();
+        if (goback) retreatCell();
     }
 }
 
