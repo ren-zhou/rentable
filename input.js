@@ -1,24 +1,32 @@
 function loadEXF(exf) {
     data = JSON.parse(atob(exf.slice(1)));
-
-    if (!data[0].valid) {
-        alert("invalid exf! may be some issues.");
-    }
-    [gridWidth, gridHeight] = data[1]
+    console.log(exf);
+    console.log(5);
+    // if (!data['metadata'].valid) {
+    //     alert("invalid exf! may be some issues.");
+    // }
+    [gridWidth, gridHeight] = data['dimensions']
     
-    format = data[2].toLowerCase();
+    format = data['answers'].map((x) => x? x.toLowerCase : x);
 
-    acrossClues = data[3];
-    downClues = data[4];
+    acrossClues = data['clues'].across;
+    downClues = data['clues'].down;
 
     checkList = [];
     for (let i = 0; i < format.length; i++) {
-        checkList.push(format.charCodeAt(i) * 17);
+        checkList.push(charCodeOrNull(format[i]));
     }
     format = makefmt(format);
     localStorage.setItem("source", exf);
-    updateTitleAuthor(data[0].title,data[0].author);
+    updateTitleAuthor(data['metadata'].title,data['metadata'].author);
     
+}
+
+function charCodeOrNull(c) {
+    if (c != null) {
+        return c.charCodeAt(0) * 17;
+    }
+    return null;
 }
 
 function loadNewEXF(exf) {
