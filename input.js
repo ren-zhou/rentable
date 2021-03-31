@@ -1,27 +1,3 @@
-function loadEXF(exf) {
-    data = JSON.parse(atob(exf.slice(1)));
-    console.log(exf);
-    console.log(5);
-    // if (!data['metadata'].valid) {
-    //     alert("invalid exf! may be some issues.");
-    // }
-    [gridWidth, gridHeight] = data['dimensions']
-    
-    format = data['answers'].map((x) => x? x.toLowerCase : x);
-
-    acrossClues = data['clues'].across;
-    downClues = data['clues'].down;
-
-    checkList = [];
-    for (let i = 0; i < format.length; i++) {
-        checkList.push(charCodeOrNull(format[i]));
-    }
-    format = makefmt(format);
-    localStorage.setItem("source", exf);
-    updateTitleAuthor(data['metadata'].title,data['metadata'].author);
-    
-}
-
 function charCodeOrNull(c) {
     if (c != null) {
         return c.charCodeAt(0) * 17;
@@ -29,48 +5,36 @@ function charCodeOrNull(c) {
     return null;
 }
 
-function loadNewEXF(exf) {
-    loadEXF(exf);
-    localStorage.removeItem("answers");
-    clearClues();
-    removeChildren(grid);
-    generate();
+function makefmt(wordarr, gridWidth, gridHeight) {
 
-}
-
-
-function isBlocked(x, y, grid) {
-    return (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight || grid[x][y] == "0");
-}
-
-
-function isHorizontal(x, y, grid) {
-    return isBlocked(x-1, y, grid) && !isBlocked(x+1, y, grid);
-}
-
-function isVertical(x, y, grid) {
-    return isBlocked(x, y-1, grid) && !isBlocked(x, y+1, grid);
-}
-
-function makefmt(wordstring) {
+    function isBlocked(x, y, grid) {
+        return (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight || grid[x][y] == "0" || grid[x][y] == null);
+    }
     
+    
+    function isHorizontal(x, y, grid) {
+        return isBlocked(x-1, y, grid) && !isBlocked(x+1, y, grid);
+    }
+    
+    function isVertical(x, y, grid) {
+        return isBlocked(x, y-1, grid) && !isBlocked(x, y+1, grid);
+    }
+
     let fmtstring = "";
     let grid = [];
     for (let i = 0; i < gridWidth; i++) {
         grid.push([]);
     }
-    let i = 0
     for (let y = 0; y < gridHeight; y++) {
         for (let x = 0; x < gridWidth; x++) {
-            grid[x][y] = wordstring[i];
-            i++
+            grid[x][y] = wordarr[y][x];
         }
     }
 
     for (let j = 0; j < gridHeight; j++) {
 
         for (let i = 0; i < gridWidth; i++) {
-            if (grid[i][j] == "0") {
+            if (grid[i][j] == "0" || grid[i][j] == null) {
                 fmtstring += ".";
             }
             else if (isHorizontal(i, j, grid) && isVertical(i, j, grid)) {
@@ -109,7 +73,7 @@ function setUpInput() {
     window.ondrop = function(e) {
         e.preventDefault();
         hideShadow();
-        e.dataTransfer.files[0].text().then(text => loadNewEXF(text));
+        e.dataTransfer.files[0].text().then(text => Puzzle.loadNewPuzzle(text));
     }
 
     window.ondragover = function (e) {

@@ -13,30 +13,33 @@
 
     <body>
         <div style="visibility: hidden; opacity: 0;" class="dropzone"></div>
-        
-        <div id="full-box">
-            <div id="nav-bar"></div>
-            <div id="grid-box">
-                <div id="across-box" class="clue-box"><b>Across</b>
-                    <ol id="across-clues"></ol>
+        <div id="box-box">
+            <div id="full-box">
+                <div id="nav-bar"></div>
+                <div id="grid-box">
+                    <div id="across-box" class="clue-box"><b>Across</b>
+                        <ol id="across-clues" class="clue-list"></ol>
+                    </div>
+                    <div id="main-grid"></div>
+                    <div id="down-box" class="clue-box"><b>Down</b>
+                        <ol id="down-clues" class="clue-list"></ol>
+                    </div>
+                    
+                    
                 </div>
-                <div id="main-grid"></div>
-                <div id="down-box" class="clue-box"><b>Down</b>
-                    <ol id="down-clues"></ol>
-                </div>
-                
-                
             </div>
         </div>
         
 
     <script src="cell.js"></script>
     <script src="clues.js"></script>
-    <script src="grid.js"></script>
-    <script src="reader.js"></script>
+    <script src="utils.js"></script>
+    <!-- <script src="grid.js"></script> -->
+    <script src="puzzle.js"></script>
     <script src="word.js"></script>
     <script src="input.js"></script>
     <script src="bar.js"></script>
+    <script src="user.js"></script>
     <script src="main.js"></script>
 
     </body>

@@ -9,7 +9,7 @@ function applyToWord(func, cell) {
     }
     let index = getIndex(cell);
     let [cellx, celly] = getXY(index);
-    if (inputAcross) {
+    if (puzzle.inputAcross) {
         applyUtility(func, cellx, celly, -1, 0);
         applyUtility(func, cellx + 1, celly, 1, 0);
     } else {
@@ -24,7 +24,6 @@ function highlightWord(cell) {
 }
 
 function applyUtility(func, x, y, xincr, yincr) {
-    // console.log(x + " " + y);
     let cell = getCell(x, y);
     if (cell == null) {
         return;
@@ -53,11 +52,9 @@ function unhighlightCell(cell) {
 }
 
 function validateCell(cell) {
-    let guess = getGuess(cell).innerText.toLowerCase();
-
-    if (checkList[getIndex(cell)] == 17 * guess.charCodeAt(0)) {
+    if (cellCorrect(cell)) {
         
-        if (validationFlag ) {
+        if (validationFlag) {
             cell.classList.add("cell-correct");
         }
         return true;
@@ -67,17 +64,17 @@ function validateCell(cell) {
 
 
 function unhighlightAll() {
-    for (let i = 0; i < cells.length; i++) {
-        cells[i].classList.contains("cell") ? unhighlightCell(cells[i]) : 0;
+    for (let i = 0; i < puzzle.cells.length; i++) {
+        puzzle.cells[i].classList.contains("cell") ? unhighlightCell(puzzle.cells[i]) : 0;
     }
 }
 
 function validateWord(){
-    if (currCell == null) {
+    if (puzzle.currCell == null) {
         return;
     }
     validationFlag = true;
-    applyToWord(validateCell, currCell);
+    applyToWord(validateCell, puzzle.currCell);
 }
 
 function devalidateCell(cell) {
@@ -88,12 +85,12 @@ function devalidateCell(cell) {
 }
 
 function validateWordStrict(){
-    if (currCell == null) {
+    if (puzzle.currCell == null) {
         return;
     }
     let tracker = [true];
     validationFlag = false;
-    applyToWord((cell) => {tracker[0] = validateCell(cell) && tracker[0];}, currCell);
+    applyToWord((cell) => {tracker[0] = validateCell(cell) && tracker[0];}, puzzle.currCell);
     
     if (tracker[0]) {
         validateWord();
