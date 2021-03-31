@@ -1,6 +1,6 @@
 const DEFAULT_PUZZLE = Puzzle.importPuzzle('*eyJtZXRhZGF0YSI6eyJ2YWxpZCI6dHJ1ZSwidGl0bGUiOiJSb3kgU3Vja3MiLCJhdXRob3IiOiJSb3kifSwiZGltZW5zaW9ucyI6WzMsNF0sImFuc3dlcnMiOltbIlIiLCJPIiwiWSJdLFtudWxsLCJJIiwiUyJdLFsiUyIsIk8iLG51bGxdLFsiQiIsIkEiLCJEIl1dLCJjbHVlcyI6eyJhY3Jvc3MiOlsiUm95IiwiSXMiLCJTbyIsIkJhZCJdLCJkb3duIjpbIk9pb2EiLCJZcyIsIlNiIl19fQ');
 class User {
-    constructor(puzzles=[], lightOn=true, currPuzz=DEFAULT_PUZZLE) {
+    constructor(puzzles=[], lightOn=true, currPuzz=DEFAULT_PUZZLE.toRXF()) {
         this.puzzles = puzzles;
         this.lightOn = lightOn;
         this.currentPuzzle = currPuzz;
@@ -14,7 +14,7 @@ class User {
 
     static loadUser() {
         user = window.localStorage.getItem("user")
-        // user = null;
+        user = null;
         if (user == null) {
             return new User();
         }
