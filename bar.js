@@ -5,6 +5,7 @@ let resetButton;
 let validateButton;
 let resetLocalButton;
 let titleText;
+var blockSave = false;
 
 
 let light_on = true;
@@ -51,8 +52,8 @@ function updateTitleAuthor(title, author) {
 
 
 function toggleDarkMode() {
-    let theme = light_on ? dark_theme : light_theme;
-    light_on = !light_on;
+    let theme = user.lightOn ? dark_theme : light_theme;
+    user.lightOn = !user.lightOn;
     for (let k in theme) {
         document.documentElement.style.setProperty(k, theme[k]);
     }
@@ -70,7 +71,7 @@ function makeShittyValidate() {
 
 function makeShittyClear() {
     resetButton = document.createElement("div");
-    resetButton.onclick = clearGrid;
+    resetButton.onclick = puzzle.clearGrid;
     resetButton.className = "menu-icon"
     resetButton.style.backgroundImage = "url(./graphics/clear.svg)";
     bar.appendChild(resetButton);
@@ -79,7 +80,7 @@ function makeShittyClear() {
 
 function makeShittyClearLocal() {
     resetLocalButton = document.createElement("div");
-    resetLocalButton.onclick = function() {localStorage.clear()};
+    resetLocalButton.onclick = function() {localStorage.clear(); blockSave = true;};
     resetLocalButton.style.backgroundImage = "url(./graphics/garbage.svg)"
     resetLocalButton.className = "menu-icon";
     bar.appendChild(resetLocalButton);
