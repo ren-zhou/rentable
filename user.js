@@ -14,7 +14,7 @@ class User {
 
     static loadUser() {
         user = window.localStorage.getItem("user")
-        user = null;
+        // user = null;
         if (user == null) {
             return new User();
         }
