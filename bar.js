@@ -1,14 +1,8 @@
 const bar = document.getElementById("nav-bar");
-
-let titleButton;
-let resetButton;
-let validateButton;
-let resetLocalButton;
 let titleText;
-var blockSave = false;
-
-
-let light_on = true;
+let collapseWidth = '65px';
+let fullWidth = '250px';
+let drublink = 'https://djghosh13.github.io/druboard/creator/';
 
 const light_theme = {	
 	'--main-background-color': 'white',
@@ -22,10 +16,11 @@ const light_theme = {
     '--clue-background': 'none',
     '--cell-black-color': 'black',
     '--clue-background-image': 'none',
-    '--main-background-image': 'none'
-}
+    '--main-background-image': 'none',
+    '--dummy-color': '#f0f0f0'
+};
 
-const dark_theme =  {	
+const disco_theme =  {	
 	'--main-background-color': '#261c50',
 	'--bar-color': '#da4694',
 	'--cell-border-color': '#ed31a0',
@@ -37,8 +32,9 @@ const dark_theme =  {
     '--clue-background': 'rgba(0,0,0,0.5)',
     '--cell-black-color': 'none',
     '--clue-background-image': 'linear-gradient(#14115e, #3c2a5c,#3c2a5c)',
-    '--main-background-image': 'linear-gradient( #0f0f51, #672ed9, #fa5bde)'
-}
+    '--main-background-image': 'linear-gradient( #0f0f51, #672ed9, #fa5bde)',
+    '--dummy-color': '#242d5f'
+};
 
 function updateTitleAuthor(title, author) {
     if (titleText == undefined) {
@@ -52,7 +48,7 @@ function updateTitleAuthor(title, author) {
 
 
 function toggleDarkMode() {
-    let theme = user.lightOn ? dark_theme : light_theme;
+    let theme = user.lightOn ? disco_theme : light_theme;
     user.lightOn = !user.lightOn;
     for (let k in theme) {
         document.documentElement.style.setProperty(k, theme[k]);
@@ -60,28 +56,23 @@ function toggleDarkMode() {
 
 }
 
-
-function makeShittyValidate() {
-    validateButton = document.createElement("div");
-    validateButton.onclick = validateWordStrict;
-    validateButton.className = "menu-icon"
-    validateButton.style.backgroundImage = "url(./graphics/validate.svg)";
-    bar.appendChild(validateButton);
+function addButton(className, f, elem, graphic) {
+    let b = document.createElement("div");
+    b.onclick = f;
+    b.className = className;
+    b.style.backgroundImage = graphic;
+    elem.appendChild(b);
+    return b;
 }
 
-function makeShittyClear() {
-    resetButton = document.createElement("div");
-    resetButton.onclick = puzzle.clearGrid;
-    resetButton.className = "menu-icon"
-    resetButton.style.backgroundImage = "url(./graphics/clear.svg)";
-    bar.appendChild(resetButton);
+function res(filename) {
+    return  `url(./res/${filename})`
 }
 
-
-function makeShittyClearLocal() {
-    resetLocalButton = document.createElement("div");
-    resetLocalButton.onclick = function() {localStorage.clear(); blockSave = true;};
-    resetLocalButton.style.backgroundImage = "url(./graphics/garbage.svg)"
-    resetLocalButton.className = "menu-icon";
-    bar.appendChild(resetLocalButton);
+function makeSideBar() {
+    let sb = document.getElementById("side-bar");
+    document.documentElement.style.setProperty("--bar-width", collapseWidth);
+    return;
+    sb.onmouseover = function () {document.documentElement.style.setProperty("--bar-width", fullWidth)};
+    sb.onmouseleave = function() {document.documentElement.style.setProperty("--bar-width", collapseWidth)};
 }

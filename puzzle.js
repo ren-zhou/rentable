@@ -1,25 +1,26 @@
+const styles = ["standard", "new-yorker"];
 var Puzzle = class {
-    constructor(boardData, time=0, progress="") {
+    constructor(boardData, time = 0, progress = "") {
         if (!boardData['metadata'].valid) {
-            alert("Invalid puzzle imported.");
+            // alert("Invalid puzzle imported.");
         }
         this.gridWidth = boardData['dimensions'][0];
         this.gridHeight = boardData['dimensions'][1];
-        // [this.gridWidth, this.gridHeight] = boardData['dimensions'];
-        
-        let format = boardData['answers'].map((x) => x.map((x) =>x? x.toLowerCase() : x));
+        this.style = boardData['metadata'].style == null ? 'standard' : boardData['metadata'].style;
+        console.log(this.style)
+        if (this.style == "new-yorker") {
+            this.gridWidth = 2 * this.gridWidth - 1;
+            this.gridHeight = 2 * this.gridHeight - 1;
+        }
+        let format = boardData['answers'].map((x) => x.map((x) => x ? x.toLowerCase() : x));
 
         this.acrossClues = boardData['clues']['across']
         this.downClues = boardData['clues']['down']
 
-        this.checkList = [];
-        for (let y = 0; y < this.gridHeight; y++) {
-            for (let x = 0; x < this.gridWidth; x++) {
-                this.checkList.push(Puzzle.charCodeOrNull(format[y][x]));
-            }
-        }
-        this.structure = makefmt(format, this.gridWidth, this.gridHeight);
-        // this.boardData = btoa(JSON.stringify(boardData));
+        this.checkList = this.makeCheckList(format, this.style)
+
+
+        this.structure = makefmt(format, this.gridWidth, this.gridHeight, this.style, { 'border-x': boardData['border-x'], 'border-y': boardData['border-y'] });
         this.time = time;
         this.inputAcross = true;
         this.currCell = null;
@@ -28,12 +29,11 @@ var Puzzle = class {
         this.downNumbering = [];
         this.acrossIndices = [];
         this.downIndices = [];
-        this.cell_px = 40 / (this.gridWidth/15);
-        this.cell_px = this.cell_px > 80 ? 80 : this.cell_px < 30? 30 : this.cell_px;
-        // this.complete = false;
+        this.cell_px = 40 / (this.gridWidth / 15);
+        this.cell_px = this.cell_px > 80 ? 80 : this.cell_px < 30 ? 30 : this.cell_px;
 
-        this.exf ='*' +  btoa(JSON.stringify(boardData));
-        
+        this.exf = '*' + btoa(JSON.stringify(boardData));
+
         this.title = boardData['metadata'].title;
         this.author = boardData['metadata'].author;
 
@@ -41,6 +41,20 @@ var Puzzle = class {
 
         updateTitleAuthor(this.title, this.author);
 
+    }
+
+    makeCheckList(format, style = "standard") {
+        let checkList = [];
+        let convert = (x) => x;
+        if (style == "new-yorker") {
+            convert = (x) => Math.floor(x / 2);
+        }
+        for (let y = 0; y < this.gridHeight; y++) {
+            for (let x = 0; x < this.gridWidth; x++) {
+                checkList.push(Puzzle.charCodeOrNull(format[convert(y)][convert(x)]));
+            }
+        }
+        return checkList;
     }
 
     static charCodeOrNull(c) {
@@ -54,50 +68,66 @@ var Puzzle = class {
         this.generateCells();
         this.updateCSS();
     }
-    
+
 
     generateCells() {
-        let word = ["a", "b", "d", "_"];
         let clueNum = 1;
         let acrossNums = [];
         let downNums = [];
         let grid = document.getElementById("main-grid");
-        
+        grid.classList.add(this.style);
+        console.log(this.structure)
         for (let i = 0; i < this.gridWidth * this.gridHeight; i++) {
             let cell = document.createElement("div");
             let type = this.structure.charAt(i);
 
-            if (type == "." || type == " ") {
+            if (black.includes(type)) {
                 cell.className = "cell-black";
+                if (type == "-") {
+                } else if (type == "|") {
+                }
+                switch (type) {
+                    case '-':
+                        cell.classList.add("horizontal-block")
+                        break;
+                    case '|':
+                        cell.classList.add("vertical-block")
+                        break;
+                    case '+':
+                        cell.classList.add("horizontal-block");
+                        cell.classList.add("vertical-block")
+                        break;
+                }
             } else {
                 cell.className = "cell";
-
-                if (word.includes(type)) { // cell starts a word
-                    switch(type) {
-                        case 'b':
-                            turnToStarter(cell, true, true, clueNum);
-                            acrossNums.push(clueNum); downNums.push(clueNum);
-                            break;
-                        case 'a':
-                            turnToStarter(cell, true, false, clueNum);
-                            acrossNums.push(clueNum);
-                            break;
-                        case 'd':
-                            turnToStarter(cell, false, true, clueNum);
-                            downNums.push(clueNum);
-                            break;
-                        default:
-                            cell.setAttribute("data-across", -1);
-                            cell.setAttribute("data-down", -1);
-                    }
-                    clueNum++;
+                if (type === "*") {
+                    cell.classList.add("cell-dummy");
                 }
-    
-                cell.onclick = function() {selectCell(this)};
+                switch (type) {
+                    case 'b':
+                        turnToStarter(cell, true, true, clueNum);
+                        acrossNums.push(clueNum); downNums.push(clueNum);
+                        break;
+                    case 'a':
+                        turnToStarter(cell, true, false, clueNum);
+                        acrossNums.push(clueNum);
+                        break;
+                    case 'd':
+                        turnToStarter(cell, false, true, clueNum);
+                        downNums.push(clueNum);
+                        break;
+                    default:
+                        cell.setAttribute("data-across", -1);
+                        cell.setAttribute("data-down", -1);
+                        clueNum--;
+                }
+                clueNum++;
+
+                cell.onclick = function () { selectCell(this) };
                 Puzzle.addGuess(cell);
-    
+
             }
-    
+
             cell.setAttribute("data-id", i);
             grid.appendChild(cell);
             this.cells.push(cell);
@@ -110,12 +140,12 @@ var Puzzle = class {
     // makes it so that each cell is labeled with the clues that it corresponds to
     associateCells(acrossNums, downNums) {
         for (let num of acrossNums) {
-            applyToWord( (c) => c.setAttribute("data-across", num),
+            applyToWord((c) => c.setAttribute("data-across", num),
                 this.findAcrossCell(num));
         }
         this.inputAcross = false;
         for (let num of downNums) {
-            applyToWord( (c) => c.setAttribute("data-down", num),
+            applyToWord((c) => c.setAttribute("data-down", num),
                 this.findDownCell(num));
         }
         this.inputAcross = true;
@@ -127,7 +157,6 @@ var Puzzle = class {
                 return cell;
             }
         }
-        console.log(acrossNum)
         return null;
     }
 
@@ -137,7 +166,6 @@ var Puzzle = class {
                 return cell;
             }
         }
-        console.log(downNum)
         return null;
     }
 
@@ -151,7 +179,7 @@ var Puzzle = class {
     }
 
     clearGrid() {
-        for (let i = 0; i < puzzle.gridWidth*puzzle.gridHeight; i++) {
+        for (let i = 0; i < puzzle.gridWidth * puzzle.gridHeight; i++) {
             if (puzzle.cells[i].classList.contains("cell")) {
                 getGuess(puzzle.cells[i]).innerText = "";
             }
@@ -165,11 +193,16 @@ var Puzzle = class {
         cell.appendChild(text);
     }
 
+    hardClear() {
+        localStorage.clear();
+        User.blockSave = true;;
+    }
+
 
     // Progress is a string
     loadProgress(progress) {
         for (let i = 0; i < progress.length; i++) {
-            if((/[a-z]|[A-Z]/).test(progress.charAt(i))) {
+            if ((/[a-z]|[A-Z]/).test(progress.charAt(i))) {
                 getGuess(this.cells[i]).innerText = progress.charAt(i).toUpperCase();
             }
             if ((/[A-Z]/).test(progress.charAt(i))) {
@@ -179,34 +212,39 @@ var Puzzle = class {
     }
 
     static unloadPuzzle() {
-        removeChildren(document.getElementById("main-grid"));
+        let grid = document.getElementById("main-grid");
+        removeChildren(grid);
         clearClues();
-    }
-    
-    toRXF() {
-        let ps = this.progstring();
-        return {boardData: JSON.parse(atob(this.exf.slice(1))), tableData: {
-            progstring: ps,
-            time: this.getTime(),
-            complete: this.complete,
-            progPercent: this.progPercent(ps)
-        }};
+        for (let style of styles) {
+            grid.classList.remove(style);
+        }
+
     }
 
-    save() {
-        if (blockSave) {
-            blockSave = false;
-            return;
-        }
-        user.currentPuzzle = this.toRXF();
-        // window.localStorage.setItem("currentPuzzle", JSON.stringify(this.toRXF()));
+    toRXF() {
+        let ps = this.progstring();
+        return {
+            boardData: JSON.parse(atob(this.exf.slice(1))), tableData: {
+                progstring: ps,
+                time: this.getTime(),
+                complete: this.complete,
+                progPercent: this.progPercent(ps)
+            }
+        };
     }
 
     // total cells filled out of total possible cells to fill
     progPercent(progstring) {
-        // console.log(progstring.replace("_", "").length);
-        return progstring.replaceAll("_", "").length/ this.structure.replaceAll(".", "").length;
-        
+        return progstring.replaceAll("_", "").length / this.structure.replaceAll(".", "").length;
+
+    }
+
+    visualWidth() {
+        return (this.style == "standard") ? this.gridWidth : (this.gridWidth - 1) / 2
+    }
+
+    visualHeight() {
+        return (this.style == "standard") ? this.gridHeight : (this.gridHeight - 1) / 2
     }
 
     // Generate a progress string from this Puzzle
@@ -237,6 +275,8 @@ var Puzzle = class {
     static progCharFromCell(cell) {
         if (cell.classList.contains("cell-black")) {
             return "_";
+        } else if (isDummy(cell)) {
+            return "*"
         } else if (cell.classList.contains("cell-correct")) {
             return getGuess(cell).innerText.toUpperCase();
         } else {
@@ -250,9 +290,9 @@ var Puzzle = class {
     static loadNewPuzzle(input) {
         Puzzle.unloadPuzzle();
         if (typeof input == "string") {
-            puzzle =  Puzzle.importPuzzle(input);
+            puzzle = Puzzle.importPuzzle(input);
         } else {
-            puzzle =  Puzzle.importTable(input);
+            puzzle = Puzzle.importTable(input);
         }
         puzzle.render();
     }
@@ -277,7 +317,12 @@ var Puzzle = class {
 
     updateCSS() {
         document.documentElement.style.setProperty('--cell-size', this.cell_px + "px");
-        document.documentElement.style.setProperty('--x-dim', this.gridWidth);
-        document.documentElement.style.setProperty('--y-dim', this.gridHeight);
-    } 
+        document.documentElement.style.setProperty('--x-dim', this.visualWidth());
+        document.documentElement.style.setProperty('--y-dim', this.visualHeight());
+        if (this.style == "new-yorker") {
+            document.documentElement.style.setProperty('--border-width', "0px")
+        } else {
+            document.documentElement.style.setProperty('--border-width', "1px")
+        }
+    }
 }
