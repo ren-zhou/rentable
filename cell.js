@@ -17,6 +17,10 @@ function selectCell(cell) {
         puzzle.currCell.classList.remove("cell-selected");
     }
     puzzle.currCell = cell;
+    let classes = puzzle.currCell.classList;
+    if (classes.contains("cell-dummy")) {
+        advanceCell();
+    }
 }
 
 function smartDirection(cell) {

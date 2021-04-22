@@ -18,6 +18,7 @@
 	--bar-width: 0px;
 	--second-size: 3px;
 	--dummy-color: #f0f0f0;
+	--dummy-highlighted: #b3d3e6;
 }
 
 ::selection {
@@ -128,7 +129,9 @@ body {
 	background-color: var(--dummy-color);
 }
 
-
+.cell-dummy.cell-highlighted {
+	background-color: var(--dummy-highlighted);
+}
 
 .cell-highlighted {
 	background-color: var(--cell-highlighted-color);
