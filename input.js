@@ -124,7 +124,7 @@ function setUpInput() {
     window.ondrop = function (e) {
         e.preventDefault();
         hideShadow();
-        e.dataTransfer.files[0].text().then(text => Puzzle.loadNewPuzzle(text));
+        e.dataTransfer.files[0].text().then(text => readFile(text));
     }
 
     window.ondragover = function (e) {
@@ -136,4 +136,25 @@ function setUpInput() {
 function hideShadow() {
     document.querySelector(".dropzone").style.visibility = "hidden";
     document.querySelector(".dropzone").style.opacity = 0;
+}
+
+function readFile(text) {
+    if (text.startsWith("^")) {
+        newUser(text);
+    } else {
+        Puzzle.loadNewPuzzle(text);
+    }
+}
+
+
+function newUser(text=null) {
+    user = User.loadUser(text);
+    puzzle = Puzzle.importTable(user.currentPuzzle);
+
+    puzzle.render();
+}
+
+function debug() {
+    console.log(user.puzzles);
+    console.log(user)
 }

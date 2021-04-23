@@ -160,7 +160,7 @@ function getGuess(cell) {
 
 function enterPress() {
     console.log("enter");
-    console.log(user.save());
+    debug();
 }
 
 function tabPress() {

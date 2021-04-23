@@ -7,7 +7,6 @@ var Puzzle = class {
         this.gridWidth = boardData['dimensions'][0];
         this.gridHeight = boardData['dimensions'][1];
         this.style = boardData['metadata'].style == null ? 'standard' : boardData['metadata'].style;
-        console.log(this.style)
         if (this.style == "new-yorker") {
             this.gridWidth = 2 * this.gridWidth - 1;
             this.gridHeight = 2 * this.gridHeight - 1;
@@ -40,6 +39,7 @@ var Puzzle = class {
         this.progress = progress;
 
         updateTitleAuthor(this.title, this.author);
+        user.addPuzzle(this)
 
     }
 
@@ -65,6 +65,7 @@ var Puzzle = class {
     }
 
     render() {
+        Puzzle.unloadPuzzle();
         this.generateCells();
         this.updateCSS();
     }
@@ -76,7 +77,6 @@ var Puzzle = class {
         let downNums = [];
         let grid = document.getElementById("main-grid");
         grid.classList.add(this.style);
-        console.log(this.structure)
         for (let i = 0; i < this.gridWidth * this.gridHeight; i++) {
             let cell = document.createElement("div");
             let type = this.structure.charAt(i);
@@ -211,6 +211,14 @@ var Puzzle = class {
         }
     }
 
+    static download(event) {
+        let rxf = puzzle.toRXF();
+        rxf = "~" + btoa(JSON.stringify(rxf));
+        let filename = puzzle.title + ".rxf";
+        this.setAttribute("href", "data:;base64," + btoa(rxf));
+        this.setAttribute("download", filename);
+    }
+
     static unloadPuzzle() {
         let grid = document.getElementById("main-grid");
         removeChildren(grid);
@@ -235,7 +243,7 @@ var Puzzle = class {
 
     // total cells filled out of total possible cells to fill
     progPercent(progstring) {
-        return progstring.replaceAll("_", "").length / this.structure.replaceAll(".", "").length;
+        return progstring.replaceAll("_", "").length / this.structure.replaceAll(/[*.-|]/g, "").length;
 
     }
 
@@ -286,15 +294,19 @@ var Puzzle = class {
 
     }
 
-    // Load NEW puzzle from drag and drop
+    // Load puzzle from drag and drop
     static loadNewPuzzle(input) {
-        Puzzle.unloadPuzzle();
+        if (input == null || input == undefined) {
+            console.log("null puzzle")
+            return false;
+        }
         if (typeof input == "string") {
             puzzle = Puzzle.importPuzzle(input);
         } else {
             puzzle = Puzzle.importTable(input);
         }
         puzzle.render();
+        return true
     }
 
     // Handles any valid import passed in as text

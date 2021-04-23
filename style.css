@@ -19,6 +19,7 @@
 	--second-size: 3px;
 	--dummy-color: #f0f0f0;
 	--dummy-highlighted: #b3d3e6;
+	--drublue: #008cff;
 }
 
 ::selection {
@@ -33,8 +34,6 @@ body {
 	background-image: var(--main-background-image);
 	background-repeat: no-repeat;
     background-attachment: fixed;
-	
-
 }
 
 #box-box {
@@ -44,7 +43,6 @@ body {
     -moz-transform: translateX(-50%) translateY(-50%);
     -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
-	
 }
 
 #top-bar {
@@ -98,10 +96,7 @@ body {
 	justify-content: center;
 	margin: 0px;
 	margin-top: 5px;
-
 }
-
-
 
 .cell {
 	border: var(--border-width) solid var(--cell-border-color);
@@ -112,7 +107,6 @@ body {
 	background-color: var(--cell-background-color);
 	border-collapse: collapse;
 }
-
 
 .vertical-block {
 	background-color: var(--cell-black-color);
@@ -147,7 +141,7 @@ body {
 
 .cell-black {
 	background-color: var(--cell-black-color);
-	border: 0px solid var(--cell-border-color);
+	border: none;
 	padding: 0px;
 	position: relative;
 }
@@ -246,19 +240,59 @@ div.title {
 	left: 0;
 	background-color: var(--bar-color);
 	z-index: 10;
-	padding-top: 50px;
-	padding-left: 10px;
+	padding: 5px;
+	padding-top: 40px;
 	/* transition: .5s; */
 	white-space: nowrap;
 	overflow-x: hidden;
+
 }
 
 
 span.side {
-	max-height: 50px;
+	/* max-height: 50px; */
+	height: 50px;
+	align-items: center;
+	text-align: center;
+	margin: 0 auto;
+
 }
 
 img.side-img {
+	display: block;
 	max-height: 50px;
 	max-width: 50px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+span.side-icon {
+	font-size: 44px;
+	display: block;
+	margin: 0 auto;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+a:hover {
+	color: var(--drublue);
+}
+
+#github {
+	position: absolute;
+	bottom: 2%;
+	left: 50%;
+	display: inline-block;
+	margin: 0 auto;
+	transform: translate(-50%, -50%);
+}
+
+#dru {
+	transition: .3s;
+}
+#dru:hover {
+	transform: rotate(30deg);
 }
