@@ -13,10 +13,10 @@ var Puzzle = class {
         }
         let format = boardData['answers'].map((x) => x.map((x) => x ? x.toLowerCase() : x));
 
-        this.acrossClues = boardData['clues']['across']
-        this.downClues = boardData['clues']['down']
+        this.acrossClues = boardData['clues']['across'];
+        this.downClues = boardData['clues']['down'];
 
-        this.checkList = this.makeCheckList(format, this.style)
+        this.checkList = this.makeCheckList(format, this.style);
 
 
         this.structure = makefmt(format, this.gridWidth, this.gridHeight, this.style, { 'border-x': boardData['border-x'], 'border-y': boardData['border-y'] });
@@ -39,7 +39,7 @@ var Puzzle = class {
         this.progress = progress;
 
         updateTitleAuthor(this.title, this.author);
-        user.addPuzzle(this)
+        user.addPuzzle(this);
 
     }
 
@@ -88,14 +88,14 @@ var Puzzle = class {
                 }
                 switch (type) {
                     case '-':
-                        cell.classList.add("horizontal-block")
+                        cell.classList.add("horizontal-block");
                         break;
                     case '|':
-                        cell.classList.add("vertical-block")
+                        cell.classList.add("vertical-block");
                         break;
                     case '+':
                         cell.classList.add("horizontal-block");
-                        cell.classList.add("vertical-block")
+                        cell.classList.add("vertical-block");
                         break;
                 }
             } else {
@@ -178,6 +178,7 @@ var Puzzle = class {
         }
     }
 
+    // clears guesses from grid
     clearGrid() {
         for (let i = 0; i < puzzle.gridWidth * puzzle.gridHeight; i++) {
             if (puzzle.cells[i].classList.contains("cell")) {
@@ -197,7 +198,6 @@ var Puzzle = class {
         localStorage.clear();
         User.blockSave = true;;
     }
-
 
     // Progress is a string
     loadProgress(progress) {
@@ -311,7 +311,7 @@ var Puzzle = class {
 
     // Handles any valid import passed in as text
     static importPuzzle(text) {
-        // let boardData;
+        user.addPuzzle(puzzle);
         if (text.startsWith('*')) { // exf
             text = atob(text.slice(1));
         } else if (text.startsWith('~')) { // rxf
@@ -324,6 +324,7 @@ var Puzzle = class {
 
     // boardData and tableData passed in as objects
     static importTable(RXFObj) {
+        // user.addPuzzle(RXFObj, true)
         return new Puzzle(RXFObj['boardData'], RXFObj['tableData']['time'], RXFObj['tableData']['progstring']);
     }
 

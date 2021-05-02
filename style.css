@@ -84,7 +84,8 @@ body {
 	grid-template-columns: repeat(var(--x-dim),var(--cell-size));
 	grid-template-rows: repeat(var(--y-dim), var(--cell-size));
 	height: 100%;
-	border: 1px solid var(--cell-border-color);
+	border-left: 1px solid var(--cell-border-color);
+	border-top: 1px solid var(--cell-border-color);
 } 
 
 #grid-box {
@@ -99,7 +100,8 @@ body {
 }
 
 .cell {
-	border: var(--border-width) solid var(--cell-border-color);
+	border-right: var(--border-width) solid var(--cell-border-color);
+	border-bottom: var(--border-width) solid var(--cell-border-color);
 	text-align: center;
 	font-size: 20px;
 	padding: 0px;
@@ -283,11 +285,11 @@ a:hover {
 
 #github {
 	position: absolute;
+	transform: translate(-50%, -50%);
 	bottom: 2%;
 	left: 50%;
 	display: inline-block;
 	margin: 0 auto;
-	transform: translate(-50%, -50%);
 }
 
 #dru {

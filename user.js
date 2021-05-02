@@ -3,15 +3,16 @@ DEFAULT_PUZZLE = `{"boardData":{"metadata":{"style":"new-yorker","valid":false,"
 class User {
     static blockSave = false;
     constructor(puzzles = {}, lightOn = true, currentPuzzle = JSON.parse(DEFAULT_PUZZLE)) {
-        // this.puzzles = new Map(Object.entries(puzzles));
         this.puzzles = puzzles;
         this.lightOn = lightOn;
         this.currentPuzzle = currentPuzzle;
     }
 
-    addPuzzle(puzzle) {
-        // this.puzzles.set(puzzle.title, puzzle);
-        this.puzzles[puzzle.title] = puzzle.toRXF();
+    addPuzzle(puzzle, converted=false) {
+        if (!converted) {
+            puzzle = puzzle.toRXF();
+        }
+        this.puzzles[puzzle['boardData']['metadata'].title] = puzzle
     }
 
     save() {
@@ -42,7 +43,6 @@ class User {
 
     static search(event) {
         let title = prompt("enter the puzzle name");
-        // user.puzzles[user.currentPuzzle['boardData']['metadata'].title] = 
         user.addPuzzle(puzzle)
         if (title != null) {
             if (!Puzzle.loadNewPuzzle(user.puzzles[title])) {

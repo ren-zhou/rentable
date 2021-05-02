@@ -4,14 +4,14 @@ let collapseWidth = '65px';
 let fullWidth = '250px';
 let drublink = 'https://djghosh13.github.io/druboard/creator/';
 
-const light_theme = {	
-	'--main-background-color': 'white',
-	'--bar-color': '#ffd260',
-	'--cell-border-color': 'black',
-	'--cell-background-color': 'white',
-	'--cell-highlighted-color':'#c9ebff',
-	'--cell-selected-color': '#ffde8c',
-	'--correct-guess-color': '#295bff',
+const light_theme = {
+    '--main-background-color': 'white',
+    '--bar-color': '#ffd260',
+    '--cell-border-color': 'black',
+    '--cell-background-color': 'white',
+    '--cell-highlighted-color': '#c9ebff',
+    '--cell-selected-color': '#ffde8c',
+    '--correct-guess-color': '#295bff',
     '--text-color': 'black',
     '--clue-background': 'none',
     '--cell-black-color': 'black',
@@ -20,14 +20,14 @@ const light_theme = {
     '--dummy-color': '#f0f0f0'
 };
 
-const disco_theme =  {	
-	'--main-background-color': '#261c50',
-	'--bar-color': '#da4694',
-	'--cell-border-color': '#ed31a0',
-	'--cell-background-color': '#1f126e',
-	'--cell-highlighted-color':'#636caf',
-	'--cell-selected-color': '#6c53a0',
-	'--correct-guess-color': '#e16b81',
+const disco_theme = {
+    '--main-background-color': '#261c50',
+    '--bar-color': '#da4694',
+    '--cell-border-color': '#ed31a0',
+    '--cell-background-color': '#1f126e',
+    '--cell-highlighted-color': '#636caf',
+    '--cell-selected-color': '#6c53a0',
+    '--correct-guess-color': '#e16b81',
     '--text-color': '#f5cd2e',
     '--clue-background': 'rgba(0,0,0,0.5)',
     '--cell-black-color': 'none',
@@ -66,13 +66,13 @@ function addButton(className, f, elem, graphic) {
 }
 
 function res(filename) {
-    return  `url(./res/${filename})`
+    return `url(./res/${filename})`;
 }
 
 function makeSideBar() {
     let sb = document.getElementById("side-bar");
     document.documentElement.style.setProperty("--bar-width", collapseWidth);
     return;
-    sb.onmouseover = function () {document.documentElement.style.setProperty("--bar-width", fullWidth)};
-    sb.onmouseleave = function() {document.documentElement.style.setProperty("--bar-width", collapseWidth)};
+    sb.onmouseover = function () { document.documentElement.style.setProperty("--bar-width", fullWidth) };
+    sb.onmouseleave = function () { document.documentElement.style.setProperty("--bar-width", collapseWidth) };
 }
