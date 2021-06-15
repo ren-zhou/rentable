@@ -3,7 +3,7 @@ let titleText;
 let collapseWidth = '65px';
 let fullWidth = '250px';
 let drublink = 'https://djghosh13.github.io/druboard/creator/';
-
+let lastUID = 0;
 const light_theme = {
     '--main-background-color': 'white',
     '--bar-color': '#ffd260',
@@ -72,7 +72,26 @@ function res(filename) {
 function makeSideBar() {
     let sb = document.getElementById("side-bar");
     document.documentElement.style.setProperty("--bar-width", collapseWidth);
-    return;
-    sb.onmouseover = function () { document.documentElement.style.setProperty("--bar-width", fullWidth) };
-    sb.onmouseleave = function () { document.documentElement.style.setProperty("--bar-width", collapseWidth) };
+    sb.onmouseenter = updatePuzzleList;
+    sb.onmouseleave = restorePuzzle;
+}
+
+function restorePuzzle() {
+    Puzzle.loadNewPuzzle(user.puzzles[lastUID]);
+    document.getElementById("puzzle-list").innerHTML = "";
+}
+
+function updatePuzzleList() {
+    let lst = document.getElementById("puzzle-list");
+    user.save();
+    lastUID = user.currentPuzzle;
+    for (let uid in user.puzzles) {
+        let item = document.createElement("div");
+        item.className = "puzzle-item";
+        let p = user.puzzles[uid];
+        item.onmouseenter = () => Puzzle.loadNewPuzzle(user.puzzles[uid]);
+        item.onclick = () => {lastUID = uid};
+        lst.appendChild(item);
+        item.innerText = p['boardData']['metadata'].title + "progress is: " + p['tableData'].progPercent;
+    }
 }

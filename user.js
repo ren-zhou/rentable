@@ -1,24 +1,26 @@
-DEFAULT_PUZZLE = `{"boardData":{"metadata":{"style":"new-yorker","valid":false,"title":"tester","author":"test"},"dimensions":[5,7],"answers":[["A","B","C","D","E"],["F","G","H","I","J"],["A","K","L","M","B"],["N","O","P","Q","R"],["S","T","U","V","W"],["X","Y","Z","A","C"],["B","C","D","E","D"]],"border-x":[[0,0,0,0],[0,1,0,0],[1,0,0,1],[0,0,1,0],[0,1,0,0],[0,0,0,1],[0,0,0,1]],"border-y":[[1,1,0,0,0],[0,1,1,0,0],[0,0,0,1,0],[0,1,0,0,1],[0,0,0,0,0],[0,0,1,0,0]],"clues":{"across":[],"down":[]}},"tableData":{"progstring":"_*_*_*_*_____*****_*___*_*_*_____*_*___*_*___*_***___*_*_*___*_*___*_*___*___*_*_***_***_*_*_*_*___***___*_*_*_*_*___","time":0,"progPercent":1.8846153846153846}}`
+DEFAULT_PUZZLE = JSON.parse(`{"boardData":{"metadata":{"style":"new-yorker","valid":false,"title":"tester","author":"test"},"dimensions":[5,7],"answers":[["A","B","C","D","E"],["F","G","H","I","J"],["A","K","L","M","B"],["N","O","P","Q","R"],["S","T","U","V","W"],["X","Y","Z","A","C"],["B","C","D","E","D"]],"border-x":[[0,0,0,0],[0,1,0,0],[1,0,0,1],[0,0,1,0],[0,1,0,0],[0,0,0,1],[0,0,0,1]],"border-y":[[1,1,0,0,0],[0,1,1,0,0],[0,0,0,1,0],[0,1,0,0,1],[0,0,0,0,0],[0,0,1,0,0]],"clues":{"across":[],"down":[]}},"tableData":{"progstring":"_*_*_*_*_____*****_*___*_*_*_____*_*___*_*___*_***___*_*_*___*_*___*_*___*___*_*_***_***_*_*_*_*___***___*_*_*_*_*___","time":0,"progPercent":1.8846153846153846}}`)
 
 class User {
     static blockSave = false;
-    constructor(puzzles = {}, lightOn = true, currentPuzzle = JSON.parse(DEFAULT_PUZZLE)) {
-        this.puzzles = puzzles;
+    constructor(puzzles = {0: DEFAULT_PUZZLE}, lightOn = true, currentPuzzle = 0) {
+        this.puzzles = puzzles; //rxf objects
         this.lightOn = lightOn;
-        this.currentPuzzle = currentPuzzle;
+        this.currentPuzzle = currentPuzzle; //UID
     }
+
 
     addPuzzle(puzzle, converted=false) {
         if (!converted) {
             puzzle = puzzle.toRXF();
         }
-        this.puzzles[puzzle['boardData']['metadata'].title] = puzzle
+        this.puzzles[puzzle['boardData']['metadata'].uid] = puzzle
     }
 
     save() {
         if (User.blockSave) return;
-        this.currentPuzzle = puzzle.toRXF();
-        localStorage.setItem("user", JSON.stringify(this));
+        this.currentPuzzle = puzzle.uid;
+        this.addPuzzle(puzzle);
+        localStorage.setItem("user", JSON.stringify(user));
     }
 
     static download(event) {
@@ -42,6 +44,7 @@ class User {
     }
 
     static search(event) {
+        return;
         let title = prompt("enter the puzzle name");
         user.addPuzzle(puzzle)
         if (title != null) {

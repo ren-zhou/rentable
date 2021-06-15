@@ -7,6 +7,8 @@ var Puzzle = class {
         this.gridWidth = boardData['dimensions'][0];
         this.gridHeight = boardData['dimensions'][1];
         this.style = boardData['metadata'].style == null ? 'standard' : boardData['metadata'].style;
+        this.uid = boardData['metadata'].uid;
+
         if (this.style == "new-yorker") {
             this.gridWidth = 2 * this.gridWidth - 1;
             this.gridHeight = 2 * this.gridHeight - 1;
@@ -18,6 +20,7 @@ var Puzzle = class {
 
         this.checkList = this.makeCheckList(format, this.style);
 
+        this.startTime = new Date().getTime();
 
         this.structure = makefmt(format, this.gridWidth, this.gridHeight, this.style, { 'border-x': boardData['border-x'], 'border-y': boardData['border-y'] });
         this.time = time;
@@ -28,19 +31,19 @@ var Puzzle = class {
         this.downNumbering = [];
         this.acrossIndices = [];
         this.downIndices = [];
-        this.cell_px = 40 / (this.gridWidth / 15);
+        this.cell_px = 40 / (this.visualWidth() / 15);
         this.cell_px = this.cell_px > 80 ? 80 : this.cell_px < 30 ? 30 : this.cell_px;
+        if (this.style == "new-yorker") {
+            this.cell_px *= .9;
+        }
 
         this.exf = '*' + btoa(JSON.stringify(boardData));
 
         this.title = boardData['metadata'].title;
         this.author = boardData['metadata'].author;
-
         this.progress = progress;
 
         updateTitleAuthor(this.title, this.author);
-        user.addPuzzle(this);
-
     }
 
     makeCheckList(format, style = "standard") {
@@ -243,16 +246,16 @@ var Puzzle = class {
 
     // total cells filled out of total possible cells to fill
     progPercent(progstring) {
-        return progstring.replaceAll("_", "").length / this.structure.replaceAll(/[*.-|]/g, "").length;
+        return progstring.replaceAll(/[_|\*]/g, "").length / this.structure.replaceAll(/[*.-|]/g, "").length;
 
     }
 
     visualWidth() {
-        return (this.style == "standard") ? this.gridWidth : (this.gridWidth - 1) / 2
+        return (this.style == "standard") ? this.gridWidth : (this.gridWidth + 1) / 2
     }
 
     visualHeight() {
-        return (this.style == "standard") ? this.gridHeight : (this.gridHeight - 1) / 2
+        return (this.style == "standard") ? this.gridHeight : (this.gridHeight + 1) / 2
     }
 
     // Generate a progress string from this Puzzle
@@ -265,7 +268,7 @@ var Puzzle = class {
     }
 
     getTime() {
-        return 0;
+        return this.time + new Date().getTime - this.startTime;
     }
 
     // returns whether every cell is correct
@@ -275,7 +278,7 @@ var Puzzle = class {
                 return false;
             }
         }
-        console.log(true);
+        console.log("complete");
         return true;
     }
 
@@ -296,6 +299,7 @@ var Puzzle = class {
 
     // Load puzzle from drag and drop
     static loadNewPuzzle(input) {
+        user.save();
         if (input == null || input == undefined) {
             console.log("null puzzle")
             return false;
@@ -311,7 +315,6 @@ var Puzzle = class {
 
     // Handles any valid import passed in as text
     static importPuzzle(text) {
-        user.addPuzzle(puzzle);
         if (text.startsWith('*')) { // exf
             text = atob(text.slice(1));
         } else if (text.startsWith('~')) { // rxf
@@ -332,10 +335,5 @@ var Puzzle = class {
         document.documentElement.style.setProperty('--cell-size', this.cell_px + "px");
         document.documentElement.style.setProperty('--x-dim', this.visualWidth());
         document.documentElement.style.setProperty('--y-dim', this.visualHeight());
-        if (this.style == "new-yorker") {
-            document.documentElement.style.setProperty('--border-width', "0px")
-        } else {
-            document.documentElement.style.setProperty('--border-width', "1px")
-        }
     }
 }

@@ -148,13 +148,15 @@ function readFile(text) {
 
 
 function newUser(text=null) {
+    User.blockSave = false;
     user = User.loadUser(text);
-    puzzle = Puzzle.importTable(user.currentPuzzle);
-
+    puzzle = Puzzle.importTable(user.puzzles[user.currentPuzzle]);
     puzzle.render();
 }
 
 function debug() {
+
     console.log(user.puzzles);
     console.log(user)
+    user.save();
 }

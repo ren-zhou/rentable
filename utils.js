@@ -1,7 +1,5 @@
 function removeChildren(parent) {
-    while (parent.firstElementChild) {
-        parent.removeChild(parent.firstElementChild);
-    }
+    parent.innerHTML = "";
 }
 
 //calculate how much memory of localstorage is being used
@@ -28,7 +26,6 @@ async function hash(exf) {
     let enc = new TextDecoder();
 
     let digestBuffer = await digestMessage(exf);
-    // console.log(enc.decode(digestBuffer));
     console.log(buf2hex(digestBuffer));
 }
 

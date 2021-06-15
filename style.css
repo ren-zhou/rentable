@@ -15,7 +15,6 @@
 	--clue-background-image: none;
 	--main-background-image: none;
 	--clue-width: 250px;
-	--bar-width: 0px;
 	--second-size: 3px;
 	--dummy-color: #f0f0f0;
 	--dummy-highlighted: #b3d3e6;
@@ -71,7 +70,7 @@ body {
 
 #main-grid.new-yorker {
 	display: grid;
-	grid-template-columns: var(--cell-size) repeat(var(--x-dim), var(--second-size) var(--cell-size));
+	grid-template-columns: var(--cell-size) repeat(calc(var(--x-dim) - 1), var(--second-size) var(--cell-size));
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
@@ -100,14 +99,18 @@ body {
 }
 
 .cell {
-	border-right: var(--border-width) solid var(--cell-border-color);
-	border-bottom: var(--border-width) solid var(--cell-border-color);
+	border-right: 1px solid var(--cell-border-color);
+	border-bottom: 1px solid var(--cell-border-color);
 	text-align: center;
 	font-size: 20px;
 	padding: 0px;
 	position: relative;
 	background-color: var(--cell-background-color);
 	border-collapse: collapse;
+}
+
+#main-grid.new-yorker .cell {
+	border: hidden;
 }
 
 .vertical-block {
@@ -237,19 +240,24 @@ div.title {
 .side-bar {
 	position: fixed;
 	height: 100%;
-	width: var(--bar-width);
+	width: 65px;
 	top: 0;
 	left: 0;
 	background-color: var(--bar-color);
 	z-index: 10;
 	padding: 5px;
 	padding-top: 40px;
-	/* transition: .5s; */
+	transition: .5s;
 	white-space: nowrap;
 	overflow-x: hidden;
-
+	text-align: center;
 }
 
+.side-bar:hover {
+	box-shadow: 0px 0px 10px black;
+	width: 250px;
+	float: right;
+}
 
 span.side {
 	/* max-height: 50px; */
@@ -257,8 +265,21 @@ span.side {
 	align-items: center;
 	text-align: center;
 	margin: 0 auto;
-
 }
+
+#puzzle-list div.side {
+	margin: 0;
+	padding: 0;
+	background-color: white;
+	width: 0%;
+	overflow-x: hidden;
+	transition: .3s;
+}
+
+.side-bar:hover > ul.side {
+	width: 85%;
+}
+
 
 img.side-img {
 	display: block;
@@ -285,11 +306,8 @@ a:hover {
 
 #github {
 	position: absolute;
-	transform: translate(-50%, -50%);
 	bottom: 2%;
-	left: 50%;
-	display: inline-block;
-	margin: 0 auto;
+	right: 2%;
 }
 
 #dru {
