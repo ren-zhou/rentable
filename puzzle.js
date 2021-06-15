@@ -246,8 +246,8 @@ var Puzzle = class {
 
     // total cells filled out of total possible cells to fill
     progPercent(progstring) {
-        return progstring.replaceAll(/[_|\*]/g, "").length / this.structure.replaceAll(/[*.-|]/g, "").length;
-
+        let proportion = progstring.replaceAll(/[_|\*]/g, "").length / this.structure.replaceAll(/[*\-|\.0\+]/g, "").length;
+        return (proportion * 100).toFixed(1) + "%"
     }
 
     visualWidth() {

@@ -19,6 +19,7 @@
 	--dummy-color: #f0f0f0;
 	--dummy-highlighted: #b3d3e6;
 	--drublue: #008cff;
+	--drubluedark: #014278;
 }
 
 ::selection {
@@ -237,6 +238,8 @@ div.title {
 	width: 300px;
 }
 
+
+
 .side-bar {
 	position: fixed;
 	height: 100%;
@@ -280,6 +283,15 @@ span.side {
 	width: 85%;
 }
 
+#puzzle-list {
+	font-size: large;
+}
+
+#puzzle-list .percent {
+	color: var(--drubluedark);
+	font-size: small;
+	margin-left: 2px;
+}
 
 img.side-img {
 	display: block;

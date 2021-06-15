@@ -92,6 +92,6 @@ function updatePuzzleList() {
         item.onmouseenter = () => Puzzle.loadNewPuzzle(user.puzzles[uid]);
         item.onclick = () => {lastUID = uid};
         lst.appendChild(item);
-        item.innerText = p['boardData']['metadata'].title + "progress is: " + p['tableData'].progPercent;
+        item.innerHTML = p['boardData']['metadata'].title + "<span class=percent>" + p['tableData'].progPercent + "<\span>";
     }
 }
