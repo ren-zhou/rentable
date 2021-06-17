@@ -21,6 +21,12 @@ function applyOffset(eye, offx, offy, adj) {
     eye.style.transform = `translateX(${x}%) translateY(${y}%)`
 }
 
+function toggleRoy() {
+    let rb = document.getElementById('roybox');
+    rb.style.display = rb.style.display != 'block' ? 'block' : 'none';
+}
+
 document.addEventListener('mousemove', updateEyes);
 
-document.getElementById('rt-icon').ondblclick = () => {document.getElementById('roybox').style.display = 'block';}
+document.getElementById('rt-icon').ondblclick = toggleRoy;
+

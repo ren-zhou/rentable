@@ -34,6 +34,11 @@ body {
 	background-image: var(--main-background-image);
 	background-repeat: no-repeat;
     background-attachment: fixed;
+	/* transition: .5s; */
+}
+
+div {
+	transition: 85ms;
 }
 
 #box-box {
@@ -237,7 +242,6 @@ div.title {
 	margin: auto;
 	width: 300px;
 }
-
 
 
 .side-bar {
