@@ -330,7 +330,7 @@ a:hover {
 }
 
 #roybox {
-	position: absolute;
+	position: fixed;
 	right: 10%;
 	width: 180px;
 	max-width: 12%;
@@ -348,4 +348,6 @@ a:hover {
 	left:0%;
 	max-width: 100%;
 	height: auto;
+	/* Smooth eye movement? */
+	transition: transform 30ms linear;
 }
