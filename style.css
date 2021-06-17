@@ -328,3 +328,24 @@ a:hover {
 #dru:hover {
 	transform: rotate(30deg);
 }
+
+#roybox {
+	position: absolute;
+	right: 10%;
+	width: 180px;
+	max-width: 12%;
+	bottom: -1%;
+	display: none;
+}
+
+#roybox img.base {
+	max-width: 100%;
+	height: auto;
+}
+
+#roybox img.eye {
+	position: absolute;
+	left:0%;
+	max-width: 100%;
+	height: auto;
+}
