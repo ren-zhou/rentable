@@ -29,6 +29,13 @@ class User {
         this.setAttribute("download", "user.ruf");
     }
 
+    render() {
+        if (!user.lightOn) {
+            user.lightOn = true;
+            toggleDarkMode();
+        }
+    }
+
     static loadUser(user = null) {
         user = user == null ? window.localStorage.getItem("user") : user.substring(1);
         if (user == null) {
@@ -36,10 +43,7 @@ class User {
         }
         user = JSON.parse(user);
         user = new User(user.puzzles, user.lightOn, user.currentPuzzle);
-        if (!user.lightOn) {
-            user.lightOn = true;
-            toggleDarkMode();
-        }
+
         return user;
     }
 
