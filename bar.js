@@ -48,6 +48,7 @@ function updateTitleAuthor(title, author) {
 
 
 function toggleDarkMode() {
+    console.log(user)
     let theme = user.lightOn ? disco_theme : light_theme;
     user.lightOn = !user.lightOn;
     for (let k in theme) {

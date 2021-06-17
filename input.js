@@ -150,6 +150,7 @@ function readFile(text) {
 function newUser(text=null) {
     User.blockSave = false;
     user = User.loadUser(text);
+    user.render();
     puzzle = Puzzle.importTable(user.puzzles[user.currentPuzzle]);
     puzzle.render();
 }
