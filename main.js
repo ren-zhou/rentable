@@ -1,12 +1,13 @@
-let puzzle;
-let user;
-user = User.loadUser();
-puzzle = Puzzle.importTable(user.currentPuzzle);
-
-puzzle.render();
+var puzzle;
+var user;
+newUser();
 document.addEventListener("keydown", keyInput);
 window.addEventListener("beforeunload", function() {user.save()});
 setUpInput();
-makeShittyValidate();
-makeShittyClear();
-makeShittyClearLocal();
+addButton("menu-icon", validateWordStrict, bar, "url(./res/validate.svg)");
+addButton("menu-icon", puzzle.clearGrid, bar, "url(./res/clear.svg)");
+addButton("menu-icon", puzzle.hardClear, bar, res("garbage.svg"));
+makeSideBar();
+document.querySelectorAll("a[data-action=download-puzzle]")[0].addEventListener("click", Puzzle.download);
+document.querySelectorAll("a[data-action=download-user]")[0].addEventListener("click", User.download);
+document.querySelectorAll("a[data-action=search]")[0].addEventListener("click", User.search);

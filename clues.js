@@ -71,6 +71,7 @@ function numOfClue(clue) {
 }
 
 function selectClue(clue, across) {
+    if (clue == prevClue) return;
     let num = across? acrossNum : downNum;
     puzzle.inputAcross = across;
     let clueNum = numOfClue(clue);

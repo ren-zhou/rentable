@@ -15,15 +15,17 @@
 	--clue-background-image: none;
 	--main-background-image: none;
 	--clue-width: 250px;
+	--second-size: 3px;
+	--dummy-color: #f0f0f0;
+	--dummy-highlighted: #b3d3e6;
+	--drublue: #008cff;
+	--drubluedark: #014278;
 }
 
 ::selection {
     background-color: transparent;
 }
 
-/* html {
-	height: 100%;
-} */
 
 body {
 	background-color: var(--main-background-color);
@@ -32,8 +34,6 @@ body {
 	background-image: var(--main-background-image);
 	background-repeat: no-repeat;
     background-attachment: fixed;
-	
-
 }
 
 #box-box {
@@ -64,23 +64,28 @@ body {
 	display: block;
 	justify-content: flex-start;
 	margin: auto;
-	/* padding-top: 20vh; */
 	justify-content: center;
 	width: fit-content;
 
 }
 
+#main-grid.new-yorker {
+	display: grid;
+	grid-template-columns: var(--cell-size) repeat(calc(var(--x-dim) - 1), var(--second-size) var(--cell-size));
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	grid-auto-rows: var(--cell-size) var(--second-size);
+	border: 3px solid var(--cell-border-color);
+} 	
 
-
-
-#main-grid {
+#main-grid.standard {
 	display: grid;
 	grid-template-columns: repeat(var(--x-dim),var(--cell-size));
 	grid-template-rows: repeat(var(--y-dim), var(--cell-size));
-	width: calc(var(--cell-size) * var(--x-dim) + var(--clue-width * 2));
 	height: 100%;
-	/* background-image: linear-gradient(#70a5e5, #e083ee); */
-
+	border-left: 1px solid var(--cell-border-color);
+	border-top: 1px solid var(--cell-border-color);
 } 
 
 #grid-box {
@@ -92,12 +97,11 @@ body {
 	justify-content: center;
 	margin: 0px;
 	margin-top: 5px;
-
 }
 
-
 .cell {
-	border: 1px solid var(--cell-border-color);
+	border-right: 1px solid var(--cell-border-color);
+	border-bottom: 1px solid var(--cell-border-color);
 	text-align: center;
 	font-size: 20px;
 	padding: 0px;
@@ -106,6 +110,28 @@ body {
 	border-collapse: collapse;
 }
 
+#main-grid.new-yorker .cell {
+	border: hidden;
+}
+
+.vertical-block {
+	background-color: var(--cell-black-color);
+	width: var(--second-size);
+}
+
+.horizontal-block {
+	height: var(--second-size);
+	background-color: var(--cell-black-color);
+
+}
+
+.cell-dummy {
+	background-color: var(--dummy-color);
+}
+
+.cell-dummy.cell-highlighted {
+	background-color: var(--dummy-highlighted);
+}
 
 .cell-highlighted {
 	background-color: var(--cell-highlighted-color);
@@ -121,7 +147,7 @@ body {
 
 .cell-black {
 	background-color: var(--cell-black-color);
-	border: 1px solid var(--cell-border-color);
+	border: none;
 	padding: 0px;
 	position: relative;
 }
@@ -132,8 +158,6 @@ body {
 
 .cell-label {
 	font-size: calc(var(--cell-size) * 0.25);
-	/* float:left;
-	margin: 3px; */
 	position: absolute;
 	top: 3px;
 	left: 3px;
@@ -141,11 +165,9 @@ body {
 
 .clue-list {
 	list-style-type: none;
-	/* background-color: orange; */
 	margin: 0px;
 	background-image: var(--clue-background-image);
 	font-size: medium;
-	/* text-indent: 0px; */
 	padding: 2px;
 }
 
@@ -166,7 +188,6 @@ body {
 
 .clue-num {
 	margin-top: 0px;
-	/* margin-left: auto; */
 	width: 25px;
 	display: block;
 	font-weight: bold;
@@ -180,7 +201,6 @@ body {
 	margin: 0px;
 	text-indent: 5px;
 	background-image: var(--clue-background-image);
-	/* font-size: large; */
 }
 
 div.dropzone {
@@ -197,7 +217,6 @@ div.dropzone {
 
 #nav-bar {
 	background-color: var(--bar-color);
-	/* margin: 0px; */
 	width: 100%;
 	height: 37px;
 	text-indent: 5%;
@@ -217,4 +236,116 @@ div.menu-icon {
 div.title {
 	margin: auto;
 	width: 300px;
+}
+
+
+
+.side-bar {
+	position: fixed;
+	height: 100%;
+	width: 65px;
+	top: 0;
+	left: 0;
+	background-color: var(--bar-color);
+	z-index: 10;
+	padding: 5px;
+	padding-top: 40px;
+	transition: .5s;
+	white-space: nowrap;
+	overflow-x: hidden;
+	text-align: center;
+}
+
+.side-bar:hover {
+	box-shadow: 0px 0px 10px black;
+	width: 250px;
+	float: right;
+}
+
+span.side {
+	/* max-height: 50px; */
+	height: 50px;
+	align-items: center;
+	text-align: center;
+	margin: 0 auto;
+}
+
+#puzzle-list div.side {
+	margin: 0;
+	padding: 0;
+	background-color: white;
+	width: 0%;
+	overflow-x: hidden;
+	transition: .3s;
+}
+
+.side-bar:hover > ul.side {
+	width: 85%;
+}
+
+#puzzle-list {
+	font-size: large;
+}
+
+#puzzle-list .percent {
+	color: var(--drubluedark);
+	font-size: small;
+	margin-left: 2px;
+}
+
+img.side-img {
+	display: block;
+	max-height: 50px;
+	max-width: 50px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+span.side-icon {
+	font-size: 44px;
+	display: block;
+	margin: 0 auto;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+a:hover {
+	color: var(--drublue);
+}
+
+#github {
+	position: absolute;
+	bottom: 2%;
+	right: 2%;
+}
+
+#dru {
+	transition: .3s;
+}
+#dru:hover {
+	transform: rotate(30deg);
+}
+
+#roybox {
+	position: absolute;
+	right: 10%;
+	width: 180px;
+	max-width: 12%;
+	bottom: -1%;
+	display: none;
+}
+
+#roybox img.base {
+	max-width: 100%;
+	height: auto;
+}
+
+#roybox img.eye {
+	position: absolute;
+	left:0%;
+	max-width: 100%;
+	height: auto;
 }

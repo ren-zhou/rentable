@@ -1,16 +1,4 @@
-function hoverCell(cell) {
-    if(cell.classList.contains("cell")) {
-        cell.classList.add("cell-hovered");
-    }
-}
-
-function unhoverCell(cell) {
-    if(cell.classList.contains("cell-hovered")) {
-        cell.classList.remove("cell-hovered");
-    }
-}
-
-function selectCell(cell) {
+function selectCell(cell, dir=1) {
     if (!cell.classList.contains("cell")) {
         console.log("why was not-cell selected");
         return;
@@ -29,6 +17,10 @@ function selectCell(cell) {
         puzzle.currCell.classList.remove("cell-selected");
     }
     puzzle.currCell = cell;
+    let classes = puzzle.currCell.classList;
+    if (classes.contains("cell-dummy")) {
+        dir > 0 ? advanceCell() : retreatCell();
+    }
 }
 
 function smartDirection(cell) {
@@ -45,16 +37,11 @@ function acrossNum(cell) {
 }
 
 function smartSwitch(cell) {
-    if (downNum(cell)> 0 && acrossNum(cell)> 0) {
+    if (downNum(cell) > 0 && acrossNum(cell) > 0) {
         puzzle.inputAcross = !puzzle.inputAcross;
         return;
     }
     puzzle.inputAcross = (downNum(cell) < 0);
-//     if (puzzle.inputAcross) {
-//         puzzle.inputAcross = cell.getAttribute('data-down') < 0 ? true : false;
-//     } else {
-//         puzzle.inputAcross = cell.getAttribute('data-across') < 0 ? false: true;
-//     }
 }
 
 function deselectCurrent() {
@@ -64,6 +51,10 @@ function deselectCurrent() {
     puzzle.currCell.classList.remove("cell-selected");
     unhighlightAll();
     puzzle.currCell = null;
+}
+
+function isDummy(cell) {
+    return cell.classList.contains("cell-dummy");
 }
 
 function keyInput(event) {
@@ -93,39 +84,32 @@ function keyInput(event) {
 }
 
 function cellCorrect(cell) {
-    let guess = getGuess(cell);
-    if (guess == null) {
+    if (cell.classList.contains("cell-dummy")) {
         return true;
     }
+    let guess = getGuess(cell);
+    if (guess == null) {
+        return false;
+    }
+
     return (puzzle.checkList[getIndex(cell)] == 17 * guess.innerText.toLowerCase().charCodeAt(0));
 }
 
 function inputLetter(letter) {
-    for (let i = 0; i < puzzle.currCell.children.length; i++) {
-        if (puzzle.currCell.children[i].classList.contains("guess")) {
-            if (puzzle.currCell.classList.contains("cell-correct")) {
-                devalidateCell(puzzle.currCell);
-            }
-            puzzle.currCell.children[i].innerHTML = letter;
-            advanceCell();
-            return;
-        }
-    }
-    console.log('should never get here');
+    if (puzzle.currCell.classList.contains("cell-correct")) return advanceCell();
+    getGuess(puzzle.currCell).innerHTML = letter;
+    advanceCell();
 }
-
 
 // Makes the passed in cell a starter cell: has across/down data attributes with clue num
 function turnToStarter(cell, across, down, clueNum) {
     let num = document.createElement("text");
-    num.innerHTML= clueNum;
+    num.innerHTML = clueNum;
     num.className = "cell-label";
     cell.prepend(num);
-    across ?  cell.setAttribute("data-across", clueNum) : cell.setAttribute("data-across", -1);
-    down ? cell.setAttribute("data-down", clueNum) : cell.setAttribute("data-down", -1) ;
+    across ? cell.setAttribute("data-across", clueNum) : cell.setAttribute("data-across", -1);
+    down ? cell.setAttribute("data-down", clueNum) : cell.setAttribute("data-down", -1);
 }
-
-
 
 function advanceCell() {
     puzzle.inputAcross ? arrowKeyLateral(1) : arrowKeyVertical(1);
@@ -158,7 +142,7 @@ function clearGuess(cell) {
     if (cell == null || cell.classList.contains("cell-correct")) {
         return;
     }
-    let guess =  getGuess(puzzle.currCell);
+    let guess = getGuess(puzzle.currCell);
     if (guess != null) {
         guess.innerHTML = "";
     }
@@ -176,7 +160,7 @@ function getGuess(cell) {
 
 function enterPress() {
     console.log("enter");
-    console.log(user.save());
+    debug();
 }
 
 function tabPress() {
@@ -215,7 +199,15 @@ function moveSelection(dir, stride) {
         index += dir * stride;
     }
     if (validIndex(index)) {
-        selectCell(puzzle.cells[index]);
+        selectCell(puzzle.cells[index], dir);
+    }
+    if (isDummy(puzzle.currCell)) {
+        console.log("was dummy")
+        if (dir == -1) {
+            retreatCell();
+        } else {
+            advanceCell();
+        }
     }
 }
 
@@ -230,7 +222,7 @@ function getCell(x, y) {
         return null;
     }
 
-    let cell = puzzle.cells[y*puzzle.gridWidth + x];
+    let cell = puzzle.cells[y * puzzle.gridWidth + x];
     if (cell.classList.contains("cell-black")) {
         return null;
     }
@@ -242,5 +234,5 @@ function getIndex(cell) {
 }
 
 function getXY(index) {
-    return [index % puzzle.gridWidth, Math.floor(index/puzzle.gridWidth)];
+    return [index % puzzle.gridWidth, Math.floor(index / puzzle.gridWidth)];
 }
