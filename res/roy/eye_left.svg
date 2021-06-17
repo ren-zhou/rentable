@@ -18,7 +18,7 @@
    inkscape:export-xdpi="199.95813"
    inkscape:export-ydpi="199.95813"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="vectoroy.svg">
+   sodipodi:docname="eye_left.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2"
-     inkscape:cx="112.81195"
-     inkscape:cy="272.44782"
+     inkscape:zoom="16"
+     inkscape:cx="86.701926"
+     inkscape:cy="265.70065"
      inkscape:document-units="mm"
      inkscape:current-layer="g1942"
      showgrid="false"
@@ -51,7 +51,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -63,9 +63,9 @@
     <g
        id="g1942"
        transform="translate(-51.858333,-147.6375)">
-       <path
-         id="eye_left"
-         d="m 83.457303,219.14712 c -1.38238,-0.63801 -2.058263,-1.4028 -2.949208,-3.33716 -0.624176,-1.35517 -0.731644,-1.93423 -0.736425,-3.96797 -0.0081,-3.45935 1.213496,-6.82506 2.83641,-7.8146 1.029486,-0.62771 3.229928,-0.69293 4.564544,-0.13529 1.2225,0.51079 3.491416,2.46065 4.01578,3.45107 0.285787,0.5398 0.457896,1.76429 0.539239,3.83646 0.104424,2.66014 0.04732,3.2342 -0.453212,4.55638 -1.256642,3.31947 -4.730885,4.8355 -7.817128,3.41111 z"
+      <path
+         id="eye_right"
+         d="m 84.0612,219.36549 c -2.13361,-0.46131 -3.88566,-1.72476 -4.74677,-3.42301 -1.00251,-1.9771 -1.19187,-3.71655 -0.69894,-6.42033 0.62524,-3.42954 2.14946,-5.8417 3.69133,-5.8417 1.63005,0 3.56439,0.40149 4.52181,0.93854 1.24411,0.69786 2.65392,2.46245 3.06048,3.83065 0.56761,1.91021 0.63349,5.40835 0.13037,6.92311 -0.975,2.93545 -3.38352,4.54944 -5.95828,3.99274 z"
          style="fill:#000000;stroke-width:0.26458332"
          inkscape:connector-curvature="0" />
     </g>
