@@ -34,7 +34,7 @@ body {
 	background-image: var(--main-background-image);
 	background-repeat: no-repeat;
     background-attachment: fixed;
-	/* transition: .5s; */
+	transition: 30ms;
 }
 
 div {
@@ -353,5 +353,6 @@ a:hover {
 	max-width: 100%;
 	height: auto;
 	/* Smooth eye movement? */
-	transition: transform 30ms linear;
+	transition: transform 130ms linear;
+	transition-delay: 10ms;
 }
