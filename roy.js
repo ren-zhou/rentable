@@ -23,4 +23,4 @@ function applyOffset(eye, offx, offy, adj) {
 
 document.addEventListener('mousemove', updateEyes);
 
-document.getElementById('rt-icon').ondblclick = () => {document.getElementById('roybox').style.display = 'block'}
+document.getElementById('rt-icon').ondblclick = () => {document.getElementById('roybox').style.display = 'block';}

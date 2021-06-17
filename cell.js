@@ -1,4 +1,4 @@
-function selectCell(cell) {
+function selectCell(cell, dir=1) {
     if (!cell.classList.contains("cell")) {
         console.log("why was not-cell selected");
         return;
@@ -19,7 +19,7 @@ function selectCell(cell) {
     puzzle.currCell = cell;
     let classes = puzzle.currCell.classList;
     if (classes.contains("cell-dummy")) {
-        advanceCell();
+        dir > 0 ? advanceCell() : retreatCell();
     }
 }
 
@@ -199,10 +199,15 @@ function moveSelection(dir, stride) {
         index += dir * stride;
     }
     if (validIndex(index)) {
-        selectCell(puzzle.cells[index]);
+        selectCell(puzzle.cells[index], dir);
     }
     if (isDummy(puzzle.currCell)) {
-        advanceCell();
+        console.log("was dummy")
+        if (dir == -1) {
+            retreatCell();
+        } else {
+            advanceCell();
+        }
     }
 }
 
