@@ -33,11 +33,13 @@ function toggleRoy() {
 function royFlinch() {
     document.getElementById('eye-left').src = "res/roy/eye_left_flinch.svg";
     document.getElementById('eye-right').src = "res/roy/eye_right_flinch.svg";
+    document.getElementById('vectoroy').src = "res/roy/vectoroy_flinch.svg";
 }
 
 function royUnFlinch() {
     document.getElementById('eye-left').src = "res/roy/eye_left.svg";
     document.getElementById('eye-right').src = "res/roy/eye_right.svg";
+    document.getElementById('vectoroy').src = "res/roy/vectoroy.svg";
 }
 
 document.addEventListener('mousemove', updateEyes);
