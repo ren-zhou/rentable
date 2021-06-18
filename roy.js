@@ -13,24 +13,39 @@ function updateEyes(e) {
     distanceZ = 0.25;
     applyOffset(document.getElementById('eye-left'), offsetX - 0.2938, offsetY - 0.4426, distanceZ);
     applyOffset(document.getElementById('eye-right'), offsetX - 0.7184, offsetY - 0.4326, distanceZ);
+    adjuster = (eye) => {adjustDelay(eye, offsetX, offsetY, distanceZ, boxW, boxH)};
+    adjuster(document.getElementById('eye-left'));
+    adjuster(document.getElementById('eye-right'));
 }
 
 function applyOffset(eye, offx, offy, offz) {
     let theta = Math.atan2(offy, offx);
     let phi = Math.atan2(Math.hypot(offx, offy), offz);
-
+    
     let x = 5 * Math.atanh(Math.sin(phi) * Math.cos(theta) * 0.76);
     let y = 3.5 * Math.atanh(Math.sin(phi) * Math.sin(theta) * 0.76);
-
+    
     eye.style.transform = `translateX(${x}%) translateY(${y}%)`;
 }
 
-function toggleRoy() {
-    let rb = document.getElementById('roybox');
-    rb.style.display = rb.style.display != 'block' ? 'block' : 'none';
+function adjustDelay(eye, x, y, z, boxW, boxH) {
+    let mag = Math.hypot(x, y, z);
+    let total = Math.max(window.innerHeight / boxH, window.innerWidth / boxW);
+
+    let delay = Math.max(.3, Math.log(mag/total * 10)*2)
+    console.log(Math.log(mag/total*10)*2)
+    eye.style.transitionDelay = `${delay}ms`;
 }
 
-document.addEventListener('mousemove', updateEyes);
+function toggleRoy() {
+    document.addEventListener('mousemove', updateEyes);
+    let rb = document.getElementById('roybox');
+    rb.style.display = rb.style.display != 'block' ? 'block' : 'none';
+    if (rb.style.display == 'none') {
+        document.removeEventListener('mousemove');
+    }
+}
+
 
 document.getElementById('rt-icon').ondblclick = toggleRoy;
 

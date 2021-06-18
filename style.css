@@ -65,13 +65,11 @@ div {
 }
 
 #full-box {
-	
 	display: block;
 	justify-content: flex-start;
 	margin: auto;
 	justify-content: center;
 	width: fit-content;
-
 }
 
 #main-grid.new-yorker {
@@ -219,7 +217,6 @@ div.dropzone {
 	transition: visibility 175ms, opacity 175ms;
 }
 
-
 #nav-bar {
 	background-color: var(--bar-color);
 	width: 100%;
@@ -231,18 +228,19 @@ div.dropzone {
 	padding: 2px;
 }
 
-div.menu-icon {
-	width: 33px;
-	height: 33px;
-	background-size: 33px;
+span.menu-icon {
+	/* width: 33px; */
+	/* height: 33px; */
+	/* background-size: 33px; */
 	margin: 3px;
+	padding: 1px;
+	/* border: var(--text-color) 2px solid; */
 }
 
-div.title {
+div#title {
 	margin: auto;
 	width: 300px;
 }
-
 
 .side-bar {
 	position: fixed;
@@ -260,11 +258,11 @@ div.title {
 	text-align: center;
 }
 
-.side-bar:hover {
+/* .side-bar:hover {
 	box-shadow: 0px 0px 10px black;
 	width: 250px;
 	float: right;
-}
+} */
 
 span.side {
 	/* max-height: 50px; */
@@ -283,9 +281,9 @@ span.side {
 	transition: .3s;
 }
 
-.side-bar:hover > ul.side {
+/* .side-bar:hover > ul.side {
 	width: 85%;
-}
+} */
 
 #puzzle-list {
 	font-size: large;
@@ -354,5 +352,5 @@ a:hover {
 	height: auto;
 	/* Smooth eye movement? */
 	transition: transform 130ms linear;
-	transition-delay: 10ms;
+	transition-delay: 30ms;
 }
