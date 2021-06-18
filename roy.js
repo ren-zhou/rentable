@@ -23,7 +23,7 @@ function applyOffset(eye, offx, offy, offz) {
     let phi = Math.atan2(Math.hypot(offx, offy), offz);
     
     let x = 5 * Math.atanh(Math.sin(phi) * Math.cos(theta) * 0.76);
-    let y = 3.5 * Math.atanh(Math.sin(phi) * Math.sin(theta) * 0.76);
+    let y = 3.7 * Math.atanh(Math.sin(phi) * Math.sin(theta) * 0.76);
     
     eye.style.transform = `translateX(${x}%) translateY(${y}%)`;
 }
@@ -32,8 +32,7 @@ function adjustDelay(eye, x, y, z, boxW, boxH) {
     let mag = Math.hypot(x, y, z);
     let total = Math.max(window.innerHeight / boxH, window.innerWidth / boxW);
 
-    let delay = Math.max(.3, Math.log(mag/total * 10)*2)
-    console.log(Math.log(mag/total*10)*2)
+    let delay = Math.max(.3, Math.log(mag/total * 10)*5)
     eye.style.transitionDelay = `${delay}ms`;
 }
 
