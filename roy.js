@@ -30,7 +30,21 @@ function toggleRoy() {
     rb.style.display = rb.style.display != 'block' ? 'block' : 'none';
 }
 
+function royFlinch() {
+    document.getElementById('eye-left').src = "res/roy/eye_left_flinch.svg";
+    document.getElementById('eye-right').src = "res/roy/eye_right_flinch.svg";
+}
+
+function royUnFlinch() {
+    document.getElementById('eye-left').src = "res/roy/eye_left.svg";
+    document.getElementById('eye-right').src = "res/roy/eye_right.svg";
+}
+
 document.addEventListener('mousemove', updateEyes);
+
+document.getElementById('roybox').onmousedown = royFlinch;
+document.getElementById('roybox').onmouseup = royUnFlinch;
+document.getElementById('roybox').onmouseleave = royUnFlinch;
 
 document.getElementById('rt-icon').ondblclick = toggleRoy;
 
