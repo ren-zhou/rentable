@@ -46,15 +46,4 @@ class User {
 
         return user;
     }
-
-    static search(event) {
-        return;
-        let title = prompt("enter the puzzle name");
-        user.addPuzzle(puzzle)
-        if (title != null) {
-            if (!Puzzle.loadNewPuzzle(user.puzzles[title])) {
-                alert("No puzzle with that name. Puzzles saved are: " + Object.keys(user.puzzles));
-            }
-        }
-    }
 }

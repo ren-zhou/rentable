@@ -1,5 +1,4 @@
 const bar = document.getElementById("nav-bar");
-let titleText;
 let collapseWidth = '65px';
 let fullWidth = '250px';
 let drublink = 'https://djghosh13.github.io/druboard/creator/';
@@ -37,11 +36,7 @@ const disco_theme = {
 };
 
 function updateTitleAuthor(title, author) {
-    if (titleText == undefined) {
-        titleText = document.createElement("div");
-        titleText.className = "title";
-        bar.appendChild(titleText);
-    }
+    titleText = document.getElementById("title")
     titleText.onclick = toggleDarkMode;
     titleText.innerText = title + " by " + author;
 }
@@ -55,6 +50,16 @@ function toggleDarkMode() {
         document.documentElement.style.setProperty(k, theme[k]);
     }
 
+}
+
+function toggleBar() {
+    let sb = document.getElementById("side-bar");
+    if (sb.style.width == fullWidth) {
+        collapseBar();
+    } else {
+        sb.style.width = fullWidth;
+        updatePuzzleList();
+    }
 }
 
 function addButton(className, f, elem, graphic) {
@@ -72,14 +77,14 @@ function res(filename) {
 
 function makeSideBar() {
     let sb = document.getElementById("side-bar");
-    document.documentElement.style.setProperty("--bar-width", collapseWidth);
-    sb.onmouseenter = updatePuzzleList;
-    sb.onmouseleave = restorePuzzle;
+    // sb.onmouseenter = updatePuzzleList;
+    sb.onmouseleave = collapseBar;
 }
 
-function restorePuzzle() {
+function collapseBar() {
     Puzzle.loadNewPuzzle(user.puzzles[lastUID]);
     document.getElementById("puzzle-list").innerHTML = "";
+    document.getElementById('side-bar').style.width = collapseWidth;
 }
 
 function updatePuzzleList() {
