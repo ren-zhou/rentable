@@ -45,6 +45,19 @@ function toggleRoy() {
     }
 }
 
+function flinch() {
+    document.getElementById('eye-left').src = "res/roy/eye_left_flinch.svg";
+    document.getElementById('eye-right').src = "res/roy/eye_right_flinch.svg";
+}
+
+function unFlinch() {
+    document.getElementById('eye-left').src = "res/roy/eye_left.svg";
+    document.getElementById('eye-right').src = "res/roy/eye_right.svg";
+}
+
+document.getElementById('roybox').onmousedown = flinch;
+document.getElementById('roybox').onmouseup = unFlinch;
+document.getElementById('roybox').onmouseleave = unFlinch;
 
 document.getElementById('rt-icon').ondblclick = toggleRoy;
 
