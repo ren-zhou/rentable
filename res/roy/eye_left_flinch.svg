@@ -20,20 +20,7 @@
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="eye_left_flinch.svg">
   <defs
-     id="defs2">
-    <inkscape:path-effect
-       effect="simplify"
-       id="path-effect5397"
-       is_visible="true"
-       steps="1"
-       threshold="9.90099e-05"
-       smooth_angles="360"
-       helper_size="0"
-       simplify_individual_paths="false"
-       simplify_just_coalesce="false"
-       simplifyindividualpaths="false"
-       simplifyJustCoalesce="false" />
-  </defs>
+     id="defs2" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -42,10 +29,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
-     inkscape:cx="56.662837"
-     inkscape:cy="296.4689"
+     inkscape:cx="81.370415"
+     inkscape:cy="254.50182"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g1942"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -73,11 +60,16 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-3.410762,-4.3857136)">
-    <path
-       style="fill:none;stroke:#040000;stroke-width:0.99438828;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-       d="m 31.789915,56.180505 7.93429,8.49374 -9.009334,7.466067"
-       id="path5409-2"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccc" />
+    <g
+       id="g1942"
+       transform="translate(-51.858333,-147.6375)">
+      <path
+         style="fill:none;stroke:#040000;stroke-width:1.29746771;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+         d="m 82.040969,202.24112 13.879101,7.01484 -14.504282,8.0776"
+         id="path5409-2"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccc"
+         inkscape:label="left eye" />
+    </g>
   </g>
 </svg>
