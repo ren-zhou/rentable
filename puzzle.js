@@ -149,7 +149,7 @@ var Puzzle = class {
         for (let cell of this.cells) {
             cell.classList.add("cell-correct");
         }
-        alert("Congrats! You've completed the puzzle.");
+        setTimeout(() =>{alert("Congrats! You've completed the puzzle.");}, 1);
     }
 
     // makes it so that each cell is labeled with the clues that it corresponds to
