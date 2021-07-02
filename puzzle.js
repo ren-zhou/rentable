@@ -140,6 +140,18 @@ var Puzzle = class {
         this.loadProgress(this.progress);
     }
 
+    checkFinished() {
+        for (let cell of this.cells) {
+            if (!cellCorrect(cell)) {
+                return;
+            }
+        }
+        for (let cell of this.cells) {
+            cell.classList.add("cell-correct");
+        }
+        alert("Congrats! You've completed the puzzle.");
+    }
+
     // makes it so that each cell is labeled with the clues that it corresponds to
     associateCells(acrossNums, downNums) {
         for (let num of acrossNums) {

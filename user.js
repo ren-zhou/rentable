@@ -1,4 +1,4 @@
-DEFAULT_PUZZLE = JSON.parse(`{"boardData":{"metadata":{"style":"new-yorker","valid":false,"title":"tester","author":"test"},"dimensions":[5,7],"answers":[["A","B","C","D","E"],["F","G","H","I","J"],["A","K","L","M","B"],["N","O","P","Q","R"],["S","T","U","V","W"],["X","Y","Z","A","C"],["B","C","D","E","D"]],"border-x":[[0,0,0,0],[0,1,0,0],[1,0,0,1],[0,0,1,0],[0,1,0,0],[0,0,0,1],[0,0,0,1]],"border-y":[[1,1,0,0,0],[0,1,1,0,0],[0,0,0,1,0],[0,1,0,0,1],[0,0,0,0,0],[0,0,1,0,0]],"clues":{"across":[],"down":[]}},"tableData":{"progstring":"_*_*_*_*_____*****_*___*_*_*_____*_*___*_*___*_***___*_*_*___*_*___*_*___*___*_*_***_***_*_*_*_*___***___*_*_*_*_*___","time":0,"progPercent":1.8846153846153846}}`)
+DEFAULT_PUZZLE = JSON.parse(`{ "boardData": { "metadata": { "style": "standard", "valid": true, "title": "Default Puzzle", "author": "Joel Fagliano", "uid": "0", "create_date": 1625232412540, "access_date": 1625232635084, "modify_date": 1625232608099, "copyright": "Made in DruBoard" }, "dimensions": [ 5, 5 ], "answers": [ [ "L", "O", "C", "K", null ], [ "U", "P", "S", "E", "T" ], [ "C", "A", "P", "R", "I" ], [ "A", "L", "A", "R", "M" ], [ null, null, "N", "Y", "E" ] ], "clues": { "across": [ "Guaranteed victory", "Surprise victory", "Style of calf-length pants", "Sleep spoiler", "Bill ___ the Science Guy" ], "down": [ "2021 Pixar movie set in the Italian Riviera", "Iridescent gemstone", "Channel that airs political hearings", "Actress Washington of Scandal", "It's believed to be distorted within a black hole" ] } }, "tableData": { "progstring": "_________________________", "time": null, "progPercent": "0.0%" } }`)
 
 class User {
     static blockSave = false;
@@ -13,6 +13,7 @@ class User {
         if (!converted) {
             puzzle = puzzle.toRXF();
         }
+        console.log(puzzle['boardData']['metadata'].uid)
         this.puzzles[puzzle['boardData']['metadata'].uid] = puzzle
     }
 

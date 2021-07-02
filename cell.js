@@ -84,7 +84,7 @@ function keyInput(event) {
 }
 
 function cellCorrect(cell) {
-    if (cell.classList.contains("cell-dummy")) {
+    if (cell.classList.contains("cell-dummy") || cell.classList.contains("cell-black")) {
         return true;
     }
     let guess = getGuess(cell);
@@ -99,6 +99,7 @@ function inputLetter(letter) {
     if (puzzle.currCell.classList.contains("cell-correct")) return advanceCell();
     getGuess(puzzle.currCell).innerHTML = letter;
     advanceCell();
+    puzzle.checkFinished();
 }
 
 // Makes the passed in cell a starter cell: has across/down data attributes with clue num

@@ -82,9 +82,13 @@ function makeSideBar() {
 }
 
 function collapseBar() {
+    let sb = document.getElementById("side-bar");
+    if (sb.style.width != fullWidth) {
+        return;
+    }
     Puzzle.loadNewPuzzle(user.puzzles[lastUID]);
     document.getElementById("puzzle-list").innerHTML = "";
-    document.getElementById('side-bar').style.width = collapseWidth;
+    sb.style.width = collapseWidth;
 }
 
 function updatePuzzleList() {

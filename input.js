@@ -144,6 +144,10 @@ function readFile(text) {
     } else {
         Puzzle.loadNewPuzzle(text);
     }
+    if (document.getElementById("side-bar").style.width == fullWidth) {
+        toggleBar();
+        toggleBar();
+    }
 }
 
 
