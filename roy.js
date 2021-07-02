@@ -32,8 +32,14 @@ function adjustDelay(eye, x, y, z, boxW, boxH) {
     let mag = Math.hypot(x, y, z);
     let total = Math.max(window.innerHeight / boxH, window.innerWidth / boxW);
 
-    let delay = Math.max(.3, Math.log(mag/total * 10)*5)
+    let delay = Math.max(.3, Math.log(mag/total * 10)*5);
     eye.style.transitionDelay = `${delay}ms`;
+}
+
+function applyOffsetWithoutTransition(eye, offx, offy, offz) {
+    eye.style.transitionDuration = `0ms`;
+    eye.style.transitionDelay = `0ms`;
+    applyOffset(eye, offx, offy, offz);
 }
 
 function toggleRoy() {
@@ -41,10 +47,31 @@ function toggleRoy() {
     let rb = document.getElementById('roybox');
     rb.style.display = rb.style.display != 'block' ? 'block' : 'none';
     if (rb.style.display == 'none') {
-        document.removeEventListener('mousemove');
+        document.removeEventListener('mousemove', updateEyes);
     }
 }
 
+function flinch() {
+    applyOffsetWithoutTransition(document.getElementById('eye-left'), 0, 0, 1);
+    applyOffsetWithoutTransition(document.getElementById('eye-right'), 0, 0, 1);
+    document.getElementById('eye-left').src = "res/roy/eye_left_flinch.svg";
+    document.getElementById('eye-right').src = "res/roy/eye_right_flinch.svg";
+    document.getElementById('vectoroy').src = "res/roy/vectoroy_flinch.svg";
+    document.removeEventListener('mousemove', updateEyes);
+}
+
+function unFlinch() {
+    document.getElementById('eye-left').style.transitionDuration = `130ms`;
+    document.getElementById('eye-right').style.transitionDuration = `130ms`;
+    document.getElementById('eye-left').src = "res/roy/eye_left.svg";
+    document.getElementById('eye-right').src = "res/roy/eye_right.svg";
+    document.getElementById('vectoroy').src = "res/roy/vectoroy.svg";
+    document.addEventListener('mousemove', updateEyes);
+}
+
+document.getElementById('roybox').onmousedown = flinch;
+document.getElementById('roybox').onmouseup = unFlinch;
+document.getElementById('roybox').onmouseleave = unFlinch;
 
 document.getElementById('rt-icon').ondblclick = toggleRoy;
 
