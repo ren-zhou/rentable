@@ -45,12 +45,14 @@ function smartSwitch(cell) {
 }
 
 function deselectCurrent() {
-    if (puzzle.currCell == null) {
+    if (puzzle.currCell == null || prevClue == null) {
         return;
     }
+    prevClue.classList.remove("clue-selected");
     puzzle.currCell.classList.remove("cell-selected");
     unhighlightAll();
     puzzle.currCell = null;
+    
 }
 
 function isDummy(cell) {
