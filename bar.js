@@ -1,7 +1,7 @@
 const bar = document.getElementById("nav-bar");
 let collapseWidth = '65px';
 let fullWidth = '250px';
-let drublink = 'https://djghosh13.github.io/druboard/creator/';
+const drublink = 'https://djghosh13.github.io/druboard/home/';
 let lastUID = 0;
 const light_theme = {
     '--main-background-color': 'white',
@@ -36,9 +36,9 @@ const disco_theme = {
 };
 
 function updateTitleAuthor(title, author) {
-    titleText = document.getElementById("title")
+    titleText = document.getElementById("title");
     titleText.onclick = toggleDarkMode;
-    titleText.innerText = title + " by " + author;
+    titleText.innerHTML = `<strong>${escapeHTML(title)}</strong><br />${escapeHTML(author)}`;
 }
 
 
@@ -104,4 +104,18 @@ function updatePuzzleList() {
         lst.appendChild(item);
         item.innerHTML = p['boardData']['metadata'].title + "<span class=percent>" + p['tableData'].progPercent + "<\span>";
     }
+}
+
+// Escape HTML special characters in a string
+function escapeHTML(str) {
+    return str.replace(
+        /[&<>'"]/g,
+        tag => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;'
+        }[tag] || tag)
+    );
 }
