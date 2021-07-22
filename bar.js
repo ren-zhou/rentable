@@ -19,7 +19,7 @@ const light_theme = {
     '--dummy-color': '#f0f0f0'
 };
 
-const disco_theme = {
+const rave_theme = {
     '--main-background-color': '#261c50',
     '--bar-color': '#da4694',
     '--cell-border-color': '#ed31a0',
@@ -44,7 +44,7 @@ function updateTitleAuthor(title, author) {
 
 function toggleDarkMode() {
     console.log(user)
-    let theme = user.lightOn ? disco_theme : light_theme;
+    let theme = user.lightOn ? rave_theme : light_theme;
     user.lightOn = !user.lightOn;
     for (let k in theme) {
         document.documentElement.style.setProperty(k, theme[k]);
